@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>World Web Browser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #f5f0e8;
+    --surface:  #ede8df;
+    --surface2: #e6e0d5;
+    --surface3: #ddd7ca;
+    --border:   #cdc6b8;
+    --border2:  #b8b0a0;
+    --text:     #2c2820;
+    --text2:    #5c5548;
+    --text3:    #958d7e;
+    --accent:   #7a4f28;
+    --accent-l: #f0e6d8;
+    --green:    #3a6e45;
+    --green-l:  #e4f0e7;
+    --red:      #8b3030;
+    --red-l:    #f5e4e4;
+    --amber:    #8a6020;
+    --amber-l:  #faf0dc;
+    --blue:     #2c5070;
+    --blue-l:   #e0ecf5;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'Lora', serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 13px; overflow: hidden; }
+
+  /* Layout */
+  #app { display: grid; grid-template-rows: auto auto 1fr auto; height: 100vh; }
+  #toolbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 7px 12px; display: flex; align-items: center; gap: 8px; }
+  #status-bar { background: var(--surface2); border-bottom: 1px solid var(--border); padding: 3px 12px; display: flex; gap: 16px; font-size: 11px; color: var(--text3); white-space: nowrap; overflow: hidden; }
+  #main { display: grid; grid-template-columns: 1fr 290px; overflow: hidden; }
+  #footer { background: var(--surface); border-top: 1px solid var(--border); padding: 4px 12px; font-size: 11px; color: var(--text3); display: flex; justify-content: space-between; align-items: center; }
+
+  /* Address bar */
+  #addr-wrap { flex: 1; display: flex; align-items: center; background: #fff; border: 1px solid var(--border); border-radius: 4px; padding: 0 8px; gap: 5px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.04); }
+  #addr-prefix { color: var(--text3); user-select: none; }
+  #addr-input { flex: 1; background: none; border: none; color: var(--text); font-family: var(--mono); font-size: 12px; outline: none; }
+  #addr-input::placeholder { color: var(--text3); }
+  #addr-wrap:focus-within { border-color: var(--accent); box-shadow: inset 0 1px 2px rgba(0,0,0,0.04), 0 0 0 2px var(--accent-l); }
+
+  /* Buttons */
+  .btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text2); font-family: var(--mono); font-size: 11px; padding: 4px 10px; border-radius: 3px; cursor: pointer; white-space: nowrap; transition: background 0.1s, border-color 0.1s; }
+  .btn:hover { background: var(--surface3); border-color: var(--border2); color: var(--text); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: #5e3a1a; }
+  .btn.icon { padding: 4px 8px; font-size: 14px; }
+
+  /* Viewport */
+  #viewport-wrap { position: relative; overflow: hidden; background: var(--bg); }
+  #viewport { width: 100%; height: 100%; border: none; }
+
+  /* Loading overlay */
+  #loading-overlay { position: absolute; inset: 0; background: rgba(245,240,232,0.93); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+  #loading-overlay.active { display: flex; }
+  .spinner { width: 28px; height: 28px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading-msg { color: var(--text2); font-size: 12px; }
+  #loading-detail { color: var(--text3); font-size: 11px; font-style: italic; max-width: 320px; text-align: center; line-height: 1.5; }
+  #loading-meta { display: flex; gap: 18px; font-size: 11px; color: var(--text3); margin-top: 2px; }
+  #loading-elapsed { font-variant-numeric: tabular-nums; }
+  #loading-live-log { font-size: 10.5px; color: var(--text3); max-width: 340px; text-align: center; min-height: 14px; opacity: 0.85; }
+
+  /* Error display */
+  #error-display { display: none; position: absolute; inset: 0; overflow-y: auto; background: var(--bg); }
+  #error-display.active { display: block; }
+  .err-wrap { padding: 32px 40px; max-width: 660px; }
+  .err-badge { display: inline-block; background: var(--red-l); border: 1px solid #c87070; color: var(--red); border-radius: 3px; font-size: 10px; padding: 2px 7px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .err-badge.warn { background: var(--amber-l); border-color: #c8a040; color: var(--amber); }
+  .err-title { font-family: var(--serif); font-size: 20px; color: var(--text); margin-bottom: 10px; line-height: 1.3; }
+  .err-body { color: var(--text2); line-height: 1.8; margin-bottom: 14px; font-size: 12.5px; }
+  .err-fix { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 12px 16px; margin-bottom: 14px; }
+  .err-fix-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 8px; }
+  .err-fix ul { padding-left: 18px; color: var(--text2); font-size: 12px; line-height: 2.0; }
+  .err-fix code { background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; padding: 1px 4px; font-size: 11px; color: var(--accent); }
+  .err-code { background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 10px 12px; font-size: 10.5px; color: var(--text3); white-space: pre-wrap; word-break: break-all; margin-bottom: 14px; max-height: 160px; overflow-y: auto; }
+  .err-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Log strip */
+  #log-strip { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(245,240,232,0.95); border-top: 1px solid var(--border); padding: 4px 12px; font-size: 10.5px; color: var(--text3); display: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #log-strip.active { display: block; }
+
+  /* Transition banner */
+  #transition-banner { display: none; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--accent); border-radius: 4px; padding: 7px 16px; font-size: 11px; color: var(--accent); z-index: 10; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  #transition-banner.active { display: block; animation: fadeSlide 0.3s ease; }
+  @keyframes fadeSlide { from { opacity:0; transform:translateX(-50%) translateY(-6px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+
+  /* Sidebar */
+  #sidebar { background: var(--surface); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+  .tab-bar { display: flex; border-bottom: 1px solid var(--border); background: var(--surface2); flex-shrink: 0; }
+  .tab { flex: 1; padding: 7px 4px; text-align: center; font-size: 10px; color: var(--text3); cursor: pointer; text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 2px solid transparent; transition: color 0.1s; }
+  .tab:hover { color: var(--text2); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--surface); }
+  .tab-content { display: none; flex: 1; overflow: hidden; flex-direction: column; }
+  .tab-content.active { display: flex; }
+
+  /* State tab */
+  .state-section { padding: 10px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .state-row { display: flex; gap: 6px; margin-bottom: 4px; font-size: 11.5px; }
+  .state-label { color: var(--text3); min-width: 72px; flex-shrink: 0; }
+  .state-val { color: var(--text); word-break: break-word; }
+  .section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 7px; }
+  .npc-entry { background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 5px 8px; margin-bottom: 4px; }
+  .npc-name { color: var(--accent); font-size: 11px; margin-bottom: 2px; font-weight: 500; }
+  .npc-state-text { color: var(--text2); font-size: 11px; }
+  #npc-scroll { padding: 8px 12px; overflow-y: auto; max-height: 130px; flex-shrink: 0; border-bottom: 1px solid var(--border); }
+  #snapshot-area { padding: 8px 12px; flex-shrink: 0; margin-top: auto; border-top: 1px solid var(--border); }
+  .snap-row { display: flex; gap: 6px; }
+
+  /* History tab */
+  #action-log { flex: 1; overflow-y: auto; padding: 8px 12px; font-size: 11px; }
+  #action-log::-webkit-scrollbar { width: 4px; }
+  #action-log::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .action-entry { padding: 5px 0; border-bottom: 1px solid var(--border); color: var(--text2); display: flex; gap: 8px; line-height: 1.5; }
+  .action-n { color: var(--text3); min-width: 22px; flex-shrink: 0; }
+  .action-empty { color: var(--text3); font-style: italic; padding: 8px 0; }
+
+  /* Config tab */
+  #tab-config { overflow-y: auto; }
+  .cfg-section { padding: 12px 12px; border-bottom: 1px solid var(--border); }
+  .cfg-row { margin-bottom: 9px; }
+  .cfg-label { color: var(--text3); margin-bottom: 3px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .cfg-input { width: 100%; background: #fff; border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 11px; padding: 5px 8px; border-radius: 3px; outline: none; }
+  .cfg-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-l); }
+  select.cfg-input { cursor: pointer; }
+  #cfg-msg { margin-top: 8px; font-size: 11px; min-height: 16px; }
+  #conn-result { margin-top: 8px; font-size: 11px; padding: 8px 10px; border-radius: 3px; display: none; line-height: 1.65; }
+  #conn-result.ok      { background: var(--green-l); border: 1px solid #8abf96; color: var(--green); display: block; }
+  #conn-result.err     { background: var(--red-l);   border: 1px solid #c87070; color: var(--red);   display: block; white-space: pre-wrap; }
+  #conn-result.checking{ background: var(--amber-l); border: 1px solid #c8a040; color: var(--amber); display: block; }
+  .cfg-note { font-size: 11px; color: var(--text3); line-height: 1.75; }
+  .cfg-note code { background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; padding: 1px 5px; font-size: 10.5px; color: var(--accent); }
+
+  /* Source tab */
+  #tab-source { overflow: hidden; }
+  #source-pre { flex: 1; overflow-y: auto; padding: 10px 12px; font-size: 10.5px; color: var(--text2); white-space: pre-wrap; word-break: break-all; line-height: 1.6; background: var(--bg); }
+
+  /* Version badge */
+  .wtml-ver { background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; padding: 2px 6px; font-size: 10px; color: var(--text3); }
+
+  /* Status dot */
+  .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+  .dot.green { background: var(--green); }
+  .dot.amber { background: var(--amber); }
+  .dot.red   { background: var(--red); }
+  .dot.idle  { background: var(--border2); }
+
+  /* Welcome screen */
+  #welcome { display: none; position: absolute; inset: 0; background: var(--bg); overflow-y: auto; }
+  #welcome.active { display: block; }
+  .welcome-inner { padding: 44px 48px; max-width: 540px; }
+  .welcome-inner h1 { font-family: var(--serif); font-size: 26px; font-weight: 400; color: var(--text); margin-bottom: 5px; }
+  .welcome-sub { color: var(--text3); font-size: 11.5px; margin-bottom: 30px; }
+  .welcome-step { display: flex; gap: 14px; margin-bottom: 18px; }
+  .welcome-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .welcome-step-body { font-size: 12px; color: var(--text2); line-height: 1.75; }
+  .welcome-step-body strong { color: var(--text); font-weight: 500; }
+  .welcome-step-body code { background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; padding: 1px 5px; font-size: 11px; color: var(--accent); }
+  .welcome-cta { margin-top: 26px; display: flex; gap: 10px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="toolbar">
+    <button class="btn icon" id="btn-back" title="Back" disabled>←</button>
+    <button class="btn icon" id="btn-reload" title="Re-render">↻</button>
+    <div id="addr-wrap">
+      <span id="addr-prefix">wtml://</span>
+      <input id="addr-input" placeholder="0001-land-of-war  — or paste full HTTP URL" spellcheck="false"/>
+    </div>
+    <button class="btn primary" id="btn-go">Go</button>
+    <span class="wtml-ver" id="ver-badge">v—</span>
+  </div>
+
+  <div id="status-bar">
+    <span><span class="dot idle" id="status-dot"></span><span id="status-text">Ready</span></span>
+    <span id="sb-world">—</span>
+    <span id="sb-day">Day —</span>
+    <span id="sb-loc" style="flex:1;overflow:hidden;text-overflow:ellipsis">—</span>
+  </div>
+
+  <div id="main">
+    <div id="viewport-wrap">
+      <iframe id="viewport" sandbox="allow-scripts" title="World render"></iframe>
+      <div id="loading-overlay">
+        <div class="spinner"></div>
+        <div id="loading-msg">Loading…</div>
+        <div id="loading-detail"></div>
+        <div id="loading-meta">
+          <span id="loading-elapsed">0s</span>
+          <span id="loading-timeout-hint"></span>
+        </div>
+        <div id="loading-live-log"></div>
+        <button class="btn" id="btn-cancel-render" style="display:none;margin-top:4px" onclick="cancelRender()">Cancel</button>
+      </div>
+      <div id="error-display"></div>
+      <div id="log-strip"></div>
+      <div id="transition-banner"></div>
+      <div id="welcome"></div>
+    </div>
+
+    <div id="sidebar">
+      <div class="tab-bar">
+        <div class="tab active" data-tab="state">State</div>
+        <div class="tab" data-tab="history">History</div>
+        <div class="tab" data-tab="config">Config</div>
+        <div class="tab" data-tab="source">Source</div>
+      </div>
+
+      <!-- State tab -->
+      <div class="tab-content active" id="tab-state">
+        <div class="state-section">
+          <div class="state-row"><span class="state-label">World</span><span class="state-val" id="si-world">—</span></div>
+          <div class="state-row"><span class="state-label">Day</span><span class="state-val" id="si-day">—</span></div>
+          <div class="state-row"><span class="state-label">Location</span><span class="state-val" id="si-loc">—</span></div>
+          <div class="state-row"><span class="state-label">User state</span><span class="state-val" id="si-state">—</span></div>
+          <div class="state-row"><span class="state-label">World state</span><span class="state-val" id="si-wstate">—</span></div>
+        </div>
+        <div style="padding:8px 12px 4px;flex-shrink:0">
+          <div class="section-title">NPCs</div>
+        </div>
+        <div id="npc-scroll"></div>
+        <div id="snapshot-area">
+          <div class="snap-row">
+            <button class="btn" id="btn-save" style="flex:1">Save snapshot</button>
+            <button class="btn" id="btn-load" style="flex:1">Load snapshot</button>
+          </div>
+          <input type="file" id="file-input" accept=".json" style="display:none"/>
+        </div>
+      </div>
+
+      <!-- History tab -->
+      <div class="tab-content" id="tab-history">
+        <div id="action-log"><div class="action-empty">No actions yet.</div></div>
+      </div>
+
+      <!-- Config tab -->
+      <div class="tab-content" id="tab-config">
+        <div class="cfg-section">
+          <div class="cfg-row">
+            <div class="cfg-label">LLM Provider</div>
+            <select class="cfg-input" id="cfg-provider">
+              <option value="ollama">Local — Ollama</option>
+              <option value="anthropic">Remote — Anthropic API</option>
+              <option value="openai">Remote — OpenAI API</option>
+              <option value="custom">Custom endpoint</option>
+            </select>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Model</div>
+            <input class="cfg-input" id="cfg-model" placeholder="e.g. llama3"/>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Endpoint URL</div>
+            <input class="cfg-input" id="cfg-url" placeholder="http://localhost:11434"/>
+          </div>
+          <div class="cfg-row" id="cfg-row-key" style="display:none">
+            <div class="cfg-label">API Key</div>
+            <input class="cfg-input" id="cfg-key" type="password" placeholder="sk-…"/>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn primary" id="btn-save-cfg" style="flex:1">Save config</button>
+            <button class="btn" id="btn-test-conn" style="flex:1">Test connection</button>
+          </div>
+          <div id="cfg-msg"></div>
+          <div id="conn-result"></div>
+        </div>
+
+        <div class="cfg-section">
+          <div class="cfg-row">
+            <div class="cfg-label">Render timeout (seconds)</div>
+            <input class="cfg-input" id="cfg-timeout" type="number" min="15" max="300" value="90" style="width:70px"/>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Digest trigger (every N actions)</div>
+            <input class="cfg-input" id="cfg-digest-n" type="number" min="3" max="20" value="5" style="width:70px"/>
+          </div>
+        </div>
+
+        <div class="cfg-section">
+          <div class="section-title" style="margin-bottom:8px">Quick start</div>
+          <div class="cfg-note">
+            1. Start Ollama: <code>ollama serve</code><br>
+            2. Pull a model: <code>ollama pull llama3</code><br>
+            3. Click <strong>Test connection</strong><br>
+            4. Navigate to <code>0001-land-of-war</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Source tab -->
+      <div class="tab-content" id="tab-source">
+        <pre id="source-pre">No document loaded.</pre>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <span id="footer-url" style="overflow:hidden;text-overflow:ellipsis;flex:1">—</span>
+    <span id="footer-actions" style="flex-shrink:0;margin-left:12px">0 actions</span>
+  </div>
+</div>
+
+<script>
+// ── Session State ─────────────────────────────────────────────────────────────
+let session = {
+  currentDocumentUrl: '',
+  worldId: '', wtmlVersion: '',
+  day: 1,
+  userLocation: '', userState: '', worldState: '',
+  npcState: {}, actionHistory: [], worldDigest: '', documentHistory: []
+};
+let currentWtmlText = '', currentWtmlDoc = null, currentLinks = [];
+let renderController = null, retryCount = 0;
+
+// ── Config ────────────────────────────────────────────────────────────────────
+let config = { provider:'ollama', model:'llama3', url:'http://localhost:11434', key:'', digestN:5, timeout:90 };
+
+function loadConfig() {
+  try { const s = localStorage.getItem('wwb-config'); if (s) Object.assign(config, JSON.parse(s)); } catch(e) {}
+  document.getElementById('cfg-provider').value  = config.provider;
+  document.getElementById('cfg-model').value     = config.model;
+  document.getElementById('cfg-url').value       = config.url;
+  document.getElementById('cfg-key').value       = config.key;
+  document.getElementById('cfg-digest-n').value  = config.digestN;
+  document.getElementById('cfg-timeout').value   = config.timeout;
+  updateConfigUI();
+}
+
+function saveConfig() {
+  config.provider = document.getElementById('cfg-provider').value;
+  config.model    = document.getElementById('cfg-model').value.trim();
+  config.url      = document.getElementById('cfg-url').value.trim();
+  config.key      = document.getElementById('cfg-key').value.trim();
+  config.digestN  = parseInt(document.getElementById('cfg-digest-n').value) || 5;
+  config.timeout  = parseInt(document.getElementById('cfg-timeout').value) || 90;
+  localStorage.setItem('wwb-config', JSON.stringify(config));
+  const msg = document.getElementById('cfg-msg');
+  msg.style.color = 'var(--green)'; msg.textContent = '✓ Config saved';
+  setTimeout(() => msg.textContent = '', 2200);
+}
+
+function updateConfigUI() {
+  const p = document.getElementById('cfg-provider').value;
+  document.getElementById('cfg-row-key').style.display = p === 'ollama' ? 'none' : '';
+  const urls   = { ollama:'http://localhost:11434', anthropic:'https://api.anthropic.com', openai:'https://api.openai.com' };
+  const models = { ollama:'llama3', anthropic:'claude-3-5-haiku-20241022', openai:'gpt-4o-mini' };
+  if (urls[p])   document.getElementById('cfg-url').placeholder   = urls[p];
+  if (models[p]) document.getElementById('cfg-model').placeholder = models[p];
+}
+
+// ── Connection tester ─────────────────────────────────────────────────────────
+async function testConnection() {
+  const btn    = document.getElementById('btn-test-conn');
+  const result = document.getElementById('conn-result');
+  btn.disabled = true;
+  result.className = 'checking';
+  result.textContent = 'Connecting…';
+
+  const provider = document.getElementById('cfg-provider').value;
+  const model    = document.getElementById('cfg-model').value.trim()  || config.model;
+  const baseUrl  = document.getElementById('cfg-url').value.trim()    || config.url;
+  const key      = document.getElementById('cfg-key').value.trim()    || config.key;
+
+  try {
+    if (provider === 'ollama' || provider === 'custom') {
+      const tagsUrl = baseUrl.replace(/\/$/, '') + '/api/tags';
+      result.textContent = 'Checking ' + tagsUrl + '…';
+      const resp = await fetch(tagsUrl, { signal: AbortSignal.timeout(8000) });
+      if (!resp.ok) throw new Error('Server returned HTTP ' + resp.status);
+      const data = await resp.json();
+      const models = (data.models || []).map(m => m.name || m.model).filter(Boolean);
+      const found  = models.some(m => m.replace(':latest','').startsWith(model.replace(':latest','')));
+      if (!models.length) {
+        result.className = 'err';
+        result.textContent = '✓ Ollama is running — but no models are installed.\n\nFix: ollama pull llama3';
+      } else if (!found) {
+        result.className = 'err';
+        result.textContent = `✓ Ollama running.\nAvailable: ${models.join(', ')}\n\nModel "${model}" not found.\nFix: ollama pull ${model}  — or update the model name above.`;
+      } else {
+        result.className = 'ok';
+        result.textContent = `✓ Ollama OK — "${model}" is available`;
+      }
+    } else if (provider === 'anthropic') {
+      if (!key) { result.className='err'; result.textContent='No API key — add one above.'; btn.disabled=false; return; }
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body: JSON.stringify({ model: model||'claude-3-5-haiku-20241022', max_tokens:5, messages:[{role:'user',content:'Hi'}] }),
+        signal: AbortSignal.timeout(10000)
+      });
+      if (resp.status===401) throw new Error('Invalid API key (401)');
+      if (!resp.ok) throw new Error('API error ' + resp.status + ': ' + await resp.text());
+      result.className='ok'; result.textContent='✓ Anthropic API key valid';
+    } else if (provider === 'openai') {
+      if (!key) { result.className='err'; result.textContent='No API key — add one above.'; btn.disabled=false; return; }
+      const resp = await fetch('https://api.openai.com/v1/models', {
+        headers:{'Authorization':'Bearer '+key}, signal: AbortSignal.timeout(10000)
+      });
+      if (resp.status===401) throw new Error('Invalid API key (401)');
+      if (!resp.ok) throw new Error('API error ' + resp.status);
+      result.className='ok'; result.textContent='✓ OpenAI API key valid';
+    }
+  } catch(e) {
+    result.className = 'err';
+    let msg = e.message || String(e);
+    if (e.name === 'TimeoutError' || e.name === 'AbortError') {
+      msg = 'Connection timed out.\n\nIs Ollama running? Try: ollama serve';
+    } else if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('fetch')) {
+      msg = `Could not reach: ${baseUrl}\n\nFor Ollama — run: ollama serve\nFor remote APIs — check your internet connection.`;
+    }
+    result.textContent = '✗ ' + msg;
+  }
+  btn.disabled = false;
+}
+
+// ── LLM Client ────────────────────────────────────────────────────────────────
+async function callLLM(systemPrompt, userMessage, signal) {
+  const provider = config.provider;
+  const model    = config.model || getDefaultModel(provider);
+  const baseUrl  = config.url   || getDefaultUrl(provider);
+
+  if (provider === 'ollama' || provider === 'custom') {
+    const url  = baseUrl.replace(/\/$/, '') + '/api/chat';
+    const resp = await fetch(url, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ model, messages:[{role:'system',content:systemPrompt},{role:'user',content:userMessage}], stream:false }),
+      signal
+    });
+    if (!resp.ok) { const b = await resp.text().catch(()=>''); throw mk('OLLAMA_ERROR', `Ollama HTTP ${resp.status}`, resp.status, b); }
+    const data = await resp.json();
+    return data.message?.content || data.choices?.[0]?.message?.content || '';
+  }
+  if (provider === 'anthropic') {
+    const resp = await fetch((baseUrl||'https://api.anthropic.com').replace(/\/$/, '') + '/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':config.key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({ model, max_tokens:4096, system:systemPrompt, messages:[{role:'user',content:userMessage}] }),
+      signal
+    });
+    if (!resp.ok) { const b = await resp.text().catch(()=>''); throw mk('API_ERROR', `Anthropic HTTP ${resp.status}`, resp.status, b); }
+    const data = await resp.json();
+    return data.content?.[0]?.text || '';
+  }
+  if (provider === 'openai') {
+    const resp = await fetch((baseUrl||'https://api.openai.com').replace(/\/$/, '') + '/v1/chat/completions', {
+      method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+config.key},
+      body: JSON.stringify({ model, messages:[{role:'system',content:systemPrompt},{role:'user',content:userMessage}] }),
+      signal
+    });
+    if (!resp.ok) { const b = await resp.text().catch(()=>''); throw mk('API_ERROR', `OpenAI HTTP ${resp.status}`, resp.status, b); }
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || '';
+  }
+  throw new Error('Unknown provider: ' + provider);
+}
+
+function mk(code, msg, status, body) {
+  const e = new Error(msg); e.code=code; e.httpStatus=status; e.responseBody=body; return e;
+}
+function getDefaultModel(p) { return {ollama:'llama3',anthropic:'claude-3-5-haiku-20241022',openai:'gpt-4o-mini'}[p]||'llama3'; }
+function getDefaultUrl(p)   { return {ollama:'http://localhost:11434',anthropic:'https://api.anthropic.com',openai:'https://api.openai.com'}[p]||config.url; }
+
+// ── WTML Parser ───────────────────────────────────────────────────────────────
+async function fetchAndParseWTML(url) {
+  log('Fetching ' + url);
+  let resp;
+  try { resp = await fetch(url); }
+  catch(e) { throw mk('FETCH_FAIL', 'Network error reaching ' + url + ': ' + e.message, 0, e.message); }
+  if (!resp.ok) throw mk('FETCH_FAIL', `HTTP ${resp.status} ${resp.statusText}`, resp.status, '');
+  const text   = await resp.text();
+  const parser = new DOMParser();
+  const doc    = parser.parseFromString(text, 'application/xml');
+  const perr   = doc.querySelector('parsererror');
+  if (perr) throw mk('INVALID_WTML', perr.textContent.trim(), 0, text.slice(0,500));
+  const verMeta = doc.querySelector('meta[name="wtml-version"]');
+  const ver     = verMeta ? verMeta.getAttribute('content') : '1.0';
+  if (parseInt(ver) > 1) throw mk('VERSION_MISMATCH', `Document requires WTML v${ver}; browser supports v1.x`, 0, '');
+  return { doc, text, ver };
+}
+
+function parseLinks(doc) {
+  return Array.from(doc.querySelectorAll('link[rel="wtml"]')).map(el => ({
+    href: el.getAttribute('href'), criterion: el.getAttribute('proximity-criterion') || ''
+  }));
+}
+function getRenderingSeed(doc) { const el = doc.querySelector('rendering-seed'); return el ? el.textContent.trim() : ''; }
+function sanitise(text) {
+  text = text.replace(/\[(SYSTEM|USER|WTML DOCUMENT|CURRENT SESSION STATE|NPC STATE MAP|ACTION HISTORY|RENDER INSTRUCTION)[^\]]*\]/gi,'[…]');
+  text = text.replace(/ignore previous instructions|you are now[^a-z]/gi,'');
+  if (text.length > 4000) { text = text.slice(0,4000)+'\n[TRUNCATED]'; }
+  return text;
+}
+
+// ── Prompt builder ────────────────────────────────────────────────────────────
+function buildSystemPrompt(seed) {
+  const s = seed ? `[RENDERING SEED: ${seed}]\n` : '';
+  return `${s}You are the rendering engine of a World Web Browser (WWB).
+Transform the provided WTML document and session state into a complete, self-contained HTML+JS user interface.
+
+Rules:
+1. Output exactly one complete HTML document starting with <!DOCTYPE html>. No preamble, no markdown fences, nothing else.
+2. All CSS and JS must be inline. No external resources.
+3. Render a scene consistent with the world description, user location, user state, and NPC state map.
+4. Present 2–6 distinct choices as interactive elements.
+5. On any choice being selected, call exactly:
+   window.parent.postMessage({ type:"wttp-action", action:"<text>", newLocation:"<max 60 chars>", newUserState:"<max 60 chars>", newNpcState:{"<npc>":"<state>"} }, window.location.origin);
+6. Style consistently with the world atmosphere and rendering seed.
+7. Reflect action history. Don't revisit resolved events. Keep NPCs consistent with the NPC state map.
+8. Make the scene visually atmospheric and immersive.`;
+}
+
+function buildUserMessage() {
+  const npc = Object.entries(session.npcState).map(([k,v])=>`${k}: ${v}`).join('\n')||'(none)';
+  let hist;
+  if (session.actionHistory.length > 20 && session.worldDigest) {
+    const recent = session.actionHistory.slice(-10).map((a,i)=>`${session.actionHistory.length-10+i+1}. ${a}`).join('\n');
+    hist = `[NARRATIVE DIGEST]\n${session.worldDigest}\n\n[10 MOST RECENT ACTIONS]\n${recent}`;
+  } else {
+    hist = session.actionHistory.length ? session.actionHistory.map((a,i)=>`${i+1}. ${a}`).join('\n') : '(none)';
+  }
+  return `[WTML DOCUMENT]\n${currentWtmlText}\n\n[CURRENT SESSION STATE]\nWorld ID: ${session.worldId}\nDay: ${session.day}\nUser location: ${session.userLocation||'unknown'}\nUser state: ${session.userState||'unknown'}\nWorld state: ${session.worldState||'none noted'}\n\n[NPC STATE MAP]\n${npc}\n\n[ACTION HISTORY]\n${hist}\n\n[RENDER INSTRUCTION]\nGenerate the interactive HTML document for the current scene.`;
+}
+
+// ── HTML extraction ───────────────────────────────────────────────────────────
+function extractHTML(raw) {
+  raw = raw.replace(/^```html?\s*/i,'').replace(/\s*```\s*$/,'');
+  const i = raw.indexOf('<!DOCTYPE html>');
+  if (i !== -1) return raw.slice(i);
+  const j = raw.indexOf('<html');
+  if (j !== -1) return raw.slice(j);
+  throw mk('INVALID_HTML', 'No HTML document found in model response', 0, raw.slice(0,600));
+}
+function patchPostMsg(html) {
+  return html.replace(/postMessage\(\s*(\{[\s\S]+?\})\s*,\s*['"`]\*['"`]\s*\)/g, 'postMessage($1, window.location.origin)');
+}
+
+// ── Render cycle ──────────────────────────────────────────────────────────────
+async function renderCycle() {
+  if (renderController) renderController.abort();
+  renderController = new AbortController();
+  const signal = renderController.signal;
+  showLoading(true, 'Rendering scene…', 'Waiting for ' + (config.model || 'model') + '…');
+  document.getElementById('btn-cancel-render').style.display = 'inline-block';
+  hideError(); hideWelcome();
+  const seed = getRenderingSeed(currentWtmlDoc);
+  const timer = setTimeout(() => { if (renderController) renderController.abort('timeout'); }, (config.timeout||90)*1000);
+  try {
+    setStatus('amber', 'Rendering…');
+    log('Building prompt…');
+    const sys = buildSystemPrompt(seed);
+    const usr = buildUserMessage();
+    log('Sending to ' + (config.model || 'model') + ' via ' + (config.provider || 'ollama') + '…');
+    const raw  = await callLLM(sys, usr, signal);
+    clearTimeout(timer);
+    log('Response received (' + raw.length + ' chars) — extracting HTML…');
+    const html = patchPostMsg(extractHTML(raw));
+    log('Injecting into viewport…');
+    document.getElementById('viewport').srcdoc = html;
+    retryCount = 0; setStatus('green','Ready'); showLoading(false); logClear();
+  } catch(e) {
+    clearTimeout(timer);
+    showLoading(false);
+    if (e.name === 'AbortError' || signal.aborted) {
+      if (String(e.message||'') === 'cancelled') { setStatus('idle','Cancelled'); return; }
+      if (retryCount < 1) {
+        retryCount++;
+        showLoading(true, 'Timed out — retrying…', 'Attempt 2 of 2');
+        renderController = null;
+        return renderCycle();
+      }
+      showError('RENDER_TIMEOUT', {
+        body: `The model did not respond within <strong>${config.timeout}s</strong> (tried twice).`,
+        fix: [
+          'Try a smaller model — e.g. <code>phi3</code> or <code>mistral</code> — via <code>ollama pull phi3</code>',
+          'Increase the render timeout in the Config tab',
+          'Check Ollama isn\'t overwhelmed: <code>ollama ps</code>',
+          'Switch to a remote API (Anthropic / OpenAI) for faster responses'
+        ]
+      });
+    } else if (e.code === 'INVALID_HTML') {
+      showError('INVALID_HTML', {
+        body: 'The model returned a response that doesn\'t contain a valid HTML document.',
+        fix: [
+          'Smaller models sometimes fail to follow the "output only HTML" instruction — try <code>llama3</code> or larger',
+          'Click <strong>↻ Re-render</strong> — it usually works on the next attempt',
+          'If this happens consistently, try a different model'
+        ],
+        detail: e.responseBody || ''
+      });
+    } else if (e.code === 'OLLAMA_ERROR' || e.code === 'API_ERROR') {
+      const s = e.httpStatus;
+      let body = '', fix = [];
+      if (s === 404 && config.provider === 'ollama') {
+        body = `Model <strong>${config.model}</strong> was not found (HTTP 404).`;
+        fix  = [`Run: <code>ollama pull ${config.model}</code>`, 'Or change the model name in Config and click Test connection to see what\'s available'];
+      } else if (s === 401) {
+        body = 'API key rejected (HTTP 401 Unauthorized).';
+        fix  = ['Check the API key in the Config tab', 'Make sure there are no trailing spaces'];
+      } else if (s === 429) {
+        body = 'Rate limit reached (HTTP 429) — the API is temporarily refusing requests.';
+        fix  = ['Wait 30–60 seconds then click ↻ Re-render', 'Switch to a local Ollama model to avoid rate limits'];
+      } else if (s === 0 || s === undefined) {
+        body = `Could not reach <strong>${config.url}</strong>.`;
+        fix  = [
+          config.provider==='ollama' ? 'Start Ollama: <code>ollama serve</code>' : 'Check your internet connection',
+          'Verify the endpoint URL in Config', 'Use the "Test connection" button to diagnose'
+        ];
+      } else {
+        body = `The API returned HTTP ${s}.`;
+        fix  = ['See the raw response below', 'Use "Test connection" in Config'];
+      }
+      showError('LLM_ERROR', { body, fix, detail: e.responseBody || e.message });
+    } else if (e.name === 'TypeError' || (e.message && e.message.includes('fetch'))) {
+      showError('CONNECTION_ERROR', {
+        body: `Could not connect to <strong>${escapeHTML(config.url)}</strong>.`,
+        fix: [
+          config.provider==='ollama' ? 'Start Ollama: <code>ollama serve</code>' : 'Check your internet connection and API URL',
+          'Click "Test connection" in the Config tab',
+          'Check Ollama isn\'t blocked by a firewall or proxy'
+        ],
+        detail: e.message
+      });
+    } else {
+      showError('RENDER_ERROR', { body: escapeHTML(e.message || String(e)), fix: ['Click ↻ Re-render to try again', 'Check the browser console (F12) for more detail'] });
+    }
+    setStatus('red','Error');
+  }
+}
+
+function cancelRender() {
+  if (renderController) { renderController.abort(new Error('cancelled')); }
+}
+
+// ── Proximity + Digest ────────────────────────────────────────────────────────
+async function evaluateProximity(links) {
+  if (!links || !links.length) return [];
+  const npc = Object.entries(session.npcState).map(([k,v])=>`${k}: ${v}`).join('\n')||'(none)';
+  const sys = `You are evaluating transition conditions in an interactive narrative.\nFor each criterion, respond with its number followed by YES or NO, one per line. No other output.\nExample: 1: NO 2: YES`;
+  const msg = `User location: ${session.userLocation}\nUser state: ${session.userState}\nWorld state: ${session.worldState}\nNPC state map: ${npc}\nMost recent action: ${session.actionHistory.at(-1)||'(none)'}\n\nCriteria:\n${links.map((l,i)=>`${i+1}. ${l.criterion}`).join('\n')}`;
+  try {
+    const raw = await callLLM(sys, msg, null);
+    return links.map((_,i) => { const m = raw.match(new RegExp(`${i+1}:\\s*(YES|NO)`,'i')); return m ? m[1].toUpperCase() : 'NO'; });
+  } catch(e) { logWarn('Proximity eval failed: ' + e.message); return links.map(()=>'NO'); }
+}
+
+async function runDigestInvocation() {
+  log('Running narrative digest…');
+  const sys = `Summarise the narrative state for a World Web Browser in one prose paragraph under 200 words. Cover: user situation/location/condition, state of each NPC, world-level changes, narrative arc so far. Be specific and factual.`;
+  const msg = `World ID: ${session.worldId}\nActions: ${session.actionHistory.map((a,i)=>`${i+1}. ${a}`).join('\n')}\nState: ${JSON.stringify({userLocation:session.userLocation,userState:session.userState,worldState:session.worldState,day:session.day,npcState:session.npcState})}`;
+  try { session.worldDigest = (await callLLM(sys, msg, null)).trim(); log('Digest updated'); }
+  catch(e) { logWarn('Digest failed: ' + e.message); }
+}
+
+// ── Message handler ───────────────────────────────────────────────────────────
+window.addEventListener('message', async (event) => {
+  const d = event.data;
+  if (!d || d.type !== 'wttp-action') return;
+  session.actionHistory.push(d.action);
+  if (d.newLocation)  session.userLocation = String(d.newLocation).slice(0,60);
+  if (d.newUserState) session.userState    = String(d.newUserState).slice(0,60);
+  if (d.newNpcState)  for (const [k,v] of Object.entries(d.newNpcState)) session.npcState[k] = String(v).slice(0,60);
+  updateSidebarState(); updateActionLog();
+  if (session.actionHistory.length % (config.digestN||5) === 0) runDigestInvocation();
+  const [prox] = await Promise.all([evaluateProximity(currentLinks), Promise.resolve()]);
+  const triggered = currentLinks.findIndex((_,i) => prox[i] === 'YES');
+  if (triggered >= 0) {
+    const link = currentLinks[triggered];
+    showTransitionBanner('→ ' + link.criterion);
+    if (renderController) renderController.abort();
+    await runDigestInvocation();
+    await loadURL(link.href, true);
+    return;
+  }
+  renderCycle();
+});
+
+// ── Load URL ──────────────────────────────────────────────────────────────────
+async function loadURL(rawUrl, isTransition = false) {
+  if (!rawUrl) return;
+  let url = rawUrl.trim();
+  // Resolve wtml:// scheme
+  if (url.startsWith('wtml://')) url = `http://localhost:3000/worlds/${url.replace(/^wtml:\/\//,'')}.wtml`;
+  // Resolve bare world names (no scheme, no slash) — treat as local world
+  if (!url.startsWith('http') && !url.includes('/') && !url.includes('\\')) {
+    url = `http://localhost:3000/worlds/${url}.wtml`;
+  }
+  if (!url.startsWith('http')) {
+    hideWelcome(); hideError();
+    showError('BAD_URL', { body: `Cannot resolve: <strong>${escapeHTML(rawUrl)}</strong>`, fix: ['Use <code>wtml://world-name</code>, a bare world name like <code>0001-land-of-war</code>, or a full HTTP URL'] });
+    return;
+  }
+  if (isTransition && session.currentDocumentUrl) session.documentHistory.push(session.currentDocumentUrl);
+  session.currentDocumentUrl = url;
+  updateAddressBar(url);
+  localStorage.setItem('wwb-last-url', url);
+  showLoading(true, 'Fetching world…', url);
+  hideError(); hideWelcome();
+  setStatus('amber','Loading…');
+  try {
+    const { doc, text, ver } = await fetchAndParseWTML(url);
+    currentWtmlDoc  = doc; currentWtmlText = text; currentLinks = parseLinks(doc);
+    const titleEl = doc.querySelector('title');
+    session.worldId     = titleEl ? titleEl.textContent.trim() : 'Unknown';
+    session.wtmlVersion = ver;
+    if (!isTransition && !session.actionHistory.length) {
+      const gd = doc.querySelector('general-description');
+      session.worldState = gd ? gd.textContent.trim().slice(0,200) : '';
+    }
+    updateSidebarState();
+    document.getElementById('ver-badge').textContent  = 'v' + ver;
+    document.getElementById('source-pre').textContent = text;
+    document.getElementById('btn-back').disabled = session.documentHistory.length === 0;
+    showLoading(false); setStatus('green','Loaded');
+    renderCycle();
+  } catch(e) {
+    showLoading(false); setStatus('red','Error');
+    const s = e.httpStatus;
+    if (e.code === 'FETCH_FAIL') {
+      const is404 = s === 404;
+      const isNet = s === 0;
+      showError('FETCH_FAIL', {
+        body: is404 ? `File not found (HTTP 404):<br><code>${escapeHTML(url)}</code>`
+            : isNet ? `Could not connect to the server.<br><code>${escapeHTML(url)}</code>`
+            :         `HTTP ${s} error fetching world.`,
+        fix: is404 ? [
+              'Check the filename in your <code>worlds/</code> folder — the address bar prefixes <code>http://localhost:3000/worlds/</code> and appends <code>.wtml</code>',
+              'Available worlds: <code>0001-land-of-war</code>, <code>0001-heir-found</code>'
+            ] : isNet ? [
+              'Make sure the server is running: <code>node server.js</code>',
+              'Check you\'re opening this page via <code>http://localhost:3000</code> not <code>file://</code>'
+            ] : ['Check the URL and server logs'],
+        detail: e.message
+      });
+    } else if (e.code === 'VERSION_MISMATCH') {
+      showError('VERSION_MISMATCH', { body: e.message, fix: ['Update your WWB to a newer version'] });
+    } else if (e.code === 'INVALID_WTML') {
+      showError('INVALID_WTML', { body: 'The WTML file could not be parsed as XML.', fix: ['Check the file for syntax errors (unclosed tags, missing quotes, etc.)'], detail: e.responseBody || '' });
+    } else {
+      showError('FETCH_ERROR', { body: e.message, fix: ['Check the browser console (F12) for details'] });
+    }
+  }
+}
+
+// ── UI helpers ────────────────────────────────────────────────────────────────
+function setStatus(c, t) {
+  document.getElementById('status-dot').className = 'dot ' + (c||'idle');
+  document.getElementById('status-text').textContent = t;
+}
+
+let _loadingTimer = null, _loadingStart = 0;
+function showLoading(active, msg='', detail='') {
+  document.getElementById('loading-overlay').classList.toggle('active', active);
+  if (msg)    document.getElementById('loading-msg').textContent    = msg;
+  document.getElementById('loading-detail').textContent = detail;
+  document.getElementById('btn-cancel-render').style.display = active ? 'inline-block' : 'none';
+  document.getElementById('loading-live-log').textContent = '';
+  if (active) {
+    _loadingStart = Date.now();
+    document.getElementById('loading-elapsed').textContent = '0s';
+    const timeout = config.timeout || 90;
+    document.getElementById('loading-timeout-hint').textContent = `timeout: ${timeout}s`;
+    clearInterval(_loadingTimer);
+    _loadingTimer = setInterval(() => {
+      const s = Math.floor((Date.now() - _loadingStart) / 1000);
+      document.getElementById('loading-elapsed').textContent = s + 's';
+      if (s >= timeout - 10 && s < timeout) {
+        document.getElementById('loading-timeout-hint').textContent = `timing out in ${timeout - s}s…`;
+      }
+    }, 500);
+  } else {
+    clearInterval(_loadingTimer);
+    _loadingTimer = null;
+    document.getElementById('loading-elapsed').textContent = '';
+    document.getElementById('loading-timeout-hint').textContent = '';
+  }
+}
+
+const friendlyTitles = {
+  FETCH_FAIL:'Could not load world', INVALID_WTML:'Invalid world document',
+  VERSION_MISMATCH:'Incompatible document version', RENDER_TIMEOUT:'Render timed out',
+  INVALID_HTML:'Model returned invalid HTML', OLLAMA_ERROR:'Ollama error',
+  API_ERROR:'API error', LLM_ERROR:'LLM error', CONNECTION_ERROR:'Connection failed',
+  RENDER_ERROR:'Render error', BAD_URL:'Invalid address', SNAPSHOT_ERROR:'Snapshot error',
+};
+
+function showError(code, opts={}) {
+  const { body='', fix=[], detail='' } = typeof opts === 'string' ? {body:opts} : opts;
+  const badgeClass = code.includes('VERSION')||code.includes('TIMEOUT') ? ' warn' : '';
+  const fixHtml = fix.length ? `<div class="err-fix"><div class="err-fix-title">How to fix this</div><ul>${fix.map(f=>`<li>${f}</li>`).join('')}</ul></div>` : '';
+  const detailHtml = detail ? `<details style="margin-bottom:14px"><summary style="cursor:pointer;font-size:11px;color:var(--text3)">Raw error detail</summary><div class="err-code" style="margin-top:8px">${escapeHTML(String(detail)).slice(0,2000)}</div></details>` : '';
+  document.getElementById('error-display').innerHTML = `<div class="err-wrap">
+    <div class="err-badge${badgeClass}">${escapeHTML(code)}</div>
+    <div class="err-title">${friendlyTitles[code]||'Something went wrong'}</div>
+    <div class="err-body">${body}</div>
+    ${fixHtml}${detailHtml}
+    <div class="err-actions">
+      <button class="btn primary" onclick="renderCycle()">↻ Re-render</button>
+      <button class="btn" onclick="hideError()">Dismiss</button>
+      <button class="btn" onclick="switchTab('config')">Open Config</button>
+    </div></div>`;
+  document.getElementById('error-display').classList.add('active');
+}
+
+function hideError()   { document.getElementById('error-display').classList.remove('active'); }
+function hideWelcome() { document.getElementById('welcome').classList.remove('active'); }
+
+function showWelcome() {
+  document.getElementById('welcome').innerHTML = `<div class="welcome-inner">
+    <h1>World Web Browser</h1>
+    <div class="welcome-sub">WW spec v1.2 — LLM-rendered narrative worlds</div>
+    <div class="welcome-step"><div class="welcome-num">1</div><div class="welcome-step-body">
+      <strong>Start your LLM.</strong><br>
+      Local (recommended): install Ollama, then run <code>ollama serve</code> and <code>ollama pull llama3</code>.<br>
+      Remote: add your Anthropic or OpenAI API key in the <strong>Config</strong> tab.
+    </div></div>
+    <div class="welcome-step"><div class="welcome-num">2</div><div class="welcome-step-body">
+      <strong>Test the connection.</strong><br>Open Config → click <strong>Test connection</strong>. It will tell you exactly what's wrong if something isn't set up.
+    </div></div>
+    <div class="welcome-step"><div class="welcome-num">3</div><div class="welcome-step-body">
+      <strong>Navigate to a world.</strong><br>
+      Type <code>0001-land-of-war</code> in the address bar and press Go.
+    </div></div>
+    <div class="welcome-cta">
+      <button class="btn primary" onclick="hideWelcome(); document.getElementById('addr-input').focus()">Start navigating</button>
+      <button class="btn" onclick="switchTab('config')">Open Config</button>
+    </div></div>`;
+  document.getElementById('welcome').classList.add('active');
+}
+
+function showTransitionBanner(text) {
+  const el = document.getElementById('transition-banner');
+  el.textContent = text; el.classList.add('active');
+  setTimeout(() => el.classList.remove('active'), 3000);
+}
+
+function updateAddressBar(url) {
+  document.getElementById('addr-input').value       = url.replace(/^https?:\/\/[^/]+\/worlds\//,'').replace(/\.wtml$/,'');
+  document.getElementById('footer-url').textContent = url;
+}
+
+function updateSidebarState() {
+  const s = session;
+  document.getElementById('si-world').textContent  = s.worldId    || '—';
+  document.getElementById('si-day').textContent    = s.day;
+  document.getElementById('si-loc').textContent    = s.userLocation|| '—';
+  document.getElementById('si-state').textContent  = s.userState  || '—';
+  document.getElementById('si-wstate').textContent = s.worldState || '—';
+  document.getElementById('sb-world').textContent  = s.worldId    || '—';
+  document.getElementById('sb-day').textContent    = 'Day ' + s.day;
+  document.getElementById('sb-loc').textContent    = s.userLocation|| '—';
+  document.getElementById('footer-actions').textContent = s.actionHistory.length + ' action' + (s.actionHistory.length!==1?'s':'');
+  const entries = Object.entries(s.npcState);
+  document.getElementById('npc-scroll').innerHTML  = entries.length
+    ? entries.map(([n,v])=>`<div class="npc-entry"><div class="npc-name">${escapeHTML(n)}</div><div class="npc-state-text">${escapeHTML(v)}</div></div>`).join('')
+    : '<div style="color:var(--text3);font-size:11px">No NPCs tracked yet.</div>';
+}
+
+function updateActionLog() {
+  const log = document.getElementById('action-log');
+  if (!session.actionHistory.length) { log.innerHTML='<div class="action-empty">No actions yet.</div>'; return; }
+  log.innerHTML = session.actionHistory.map((a,i)=>
+    `<div class="action-entry"><span class="action-n">${i+1}</span><span>${escapeHTML(a)}</span></div>`
+  ).reverse().join('');
+}
+
+function escapeHTML(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab===name));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.toggle('active', t.id==='tab-'+name));
+}
+
+function log(msg) {
+  const e = document.getElementById('log-strip');
+  e.textContent = '▸ ' + msg; e.classList.add('active');
+  const live = document.getElementById('loading-live-log');
+  if (live) live.textContent = msg;
+}
+function logWarn(msg)  { console.warn('[WWB]',msg); log('⚠ '+msg); }
+function logClear()    { document.getElementById('log-strip').classList.remove('active'); }
+
+// ── Snapshot ──────────────────────────────────────────────────────────────────
+function saveSnapshot() {
+  const snap = {...session, snapshotVersion:'1.2', snapshotTimestamp:new Date().toISOString()};
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(snap,null,2)],{type:'application/json'}));
+  a.download = `wwb-snapshot-${Date.now()}.json`; a.click();
+}
+function loadSnapshot(file) {
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const snap = JSON.parse(e.target.result);
+      if (!snap.snapshotVersion) throw new Error('Not a valid WWB snapshot (missing snapshotVersion)');
+      const { snapshotVersion, snapshotTimestamp, ...state } = snap;
+      Object.assign(session, state);
+      updateSidebarState(); updateActionLog();
+      document.getElementById('ver-badge').textContent = 'v' + (session.wtmlVersion||'?');
+      loadURL(session.currentDocumentUrl, false);
+    } catch(e) { showError('SNAPSHOT_ERROR', { body: 'Failed to load snapshot.', fix:[e.message] }); }
+  };
+  r.readAsText(file);
+}
+
+// ── Event wiring ──────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
+document.getElementById('btn-go').addEventListener('click', () => { const v = document.getElementById('addr-input').value.trim(); if (v) loadURL(v); });
+document.getElementById('addr-input').addEventListener('keydown', e => { if (e.key==='Enter') document.getElementById('btn-go').click(); });
+document.getElementById('btn-reload').addEventListener('click', () => { if (currentWtmlDoc) renderCycle(); else { const v=document.getElementById('addr-input').value.trim(); if(v) loadURL(v); } });
+document.getElementById('btn-back').addEventListener('click', () => { const p=session.documentHistory.pop(); if(p) loadURL(p,false); });
+document.getElementById('btn-save').addEventListener('click', saveSnapshot);
+document.getElementById('btn-load').addEventListener('click', () => document.getElementById('file-input').click());
+document.getElementById('file-input').addEventListener('change', e => { if (e.target.files[0]) loadSnapshot(e.target.files[0]); });
+document.getElementById('btn-save-cfg').addEventListener('click', saveConfig);
+document.getElementById('btn-test-conn').addEventListener('click', testConnection);
+document.getElementById('cfg-provider').addEventListener('change', updateConfigUI);
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+loadConfig(); setStatus('idle','Ready'); updateSidebarState(); updateActionLog(); showWelcome();
+const lastUrl = localStorage.getItem('wwb-last-url');
+if (lastUrl) updateAddressBar(lastUrl);
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>World-0001 — Year 4412 — Day 1</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/0001-heir-found.wtml"
+      proximity-criterion="Has the king located and accepted an heir?" />
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/0001-king-dead.wtml"
+      proximity-criterion="Is King Pip dead?" />
+    <rendering-seed>world-0001-v1-medieval-melancholy-no-combat</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      Cold, misty, with faintly corrosive air. The sky is permanently overcast,
+      a flat pewter sheet that diffuses light without warmth. Sounds carry far in
+      the stillness — a boot scrape, a distant crow, the creak of the lantern
+      chain. Little grows here. The soil is grey-brown and cracked, dotted with
+      dead furze. The cold has a texture to it, like damp wool pressed against
+      the skin.
+    </atmosphere>
+    <societal-structure>
+      Medieval feudalism with a single surviving noble lineage. The kingdom has
+      contracted over generations — once spanning several regions, it is now
+      little more than the castle grounds and the flat lands within a day's walk.
+      There are no functioning markets, no guilds, no courts. The remaining
+      population — perhaps two or three dozen souls scattered across the flatland
+      — exists outside any formal social structure.
+    </societal-structure>
+    <geography>
+      A wide flatland surrounded by collapsed mountain ranges whose rubble forms
+      an irregular horizon. The castle sits at the approximate centre, built on
+      the only slight rise in the terrain. Three old roads lead away from it:
+      north toward what was once a village, east toward the ruins of a mill by a
+      silted river, and south toward the collapsed mountain pass. The flatland is
+      largely featureless — occasional stone walls, drained irrigation channels,
+      the remnants of field boundaries.
+    </geography>
+    <general-description>
+      King Pip, ancient and alone, has ruled the Land of War for decades with
+      scrupulous and exhausting fairness. He has no heir. His health is failing.
+      He has, for the first time in ten years, left his castle — carrying only a
+      brass lantern and a fraying hand-drawn map — to find someone worthy to
+      receive the kingdom before he dies. He does not know if anyone remains.
+      The kingdom has no name he still uses. He calls it, privately, the problem.
+    </general-description>
+    <npcs>
+      King Pip: Ancient, stubborn, principled to the point of self-destruction.
+      Moves slowly due to a bad hip. Wears plain wool, no crown. Carries a brass
+      lantern (still lit) and a folded map covered in annotations. He knows this
+      land intimately. He is not sentimental but he is not cruel. He will not
+      accept flattery or false promises. He respects directness. He is afraid,
+      though he would not say so.
+    </npcs>
+    <constraints>
+      The world is largely depopulated. Any new character encountered should feel
+      surprising and significant — their presence needs a reason. The tone is
+      melancholy, not horror. No combat. No magic. No supernatural elements.
+      The mood is late-autumn, end-of-things, but not hopeless — King Pip still
+      believes the right person might exist. The player is a traveller of
+      unspecified origin who has arrived at the castle gates.
+    </constraints>
+  </body>
+</wtml>

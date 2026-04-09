@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>World-0001 — Year 4412 — The Succession</title>
+    <rendering-seed>world-0001-succession-melancholy-relief-quiet-ceremony</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      The air is the same cold grey, but something has shifted — an almost
+      imperceptible lightening, as though the overcast has thinned by one layer.
+      The lantern flame burns steadier. The wind has dropped.
+    </atmosphere>
+    <societal-structure>
+      The kingdom has a named heir now. Nothing has changed materially, but the
+      fact of it changes everything. The remaining inhabitants, however scattered,
+      will hear the news within days.
+    </societal-structure>
+    <geography>
+      The same flatland. But it feels different to stand in it now.
+    </geography>
+    <general-description>
+      King Pip has accepted an heir. The seal of the kingdom has changed hands.
+      He is visibly lighter — not happy exactly, but relieved of a weight he has
+      carried for years. What happens next is uncertain, but the succession is
+      settled. The player now stands as the named heir to the Land of War, a
+      kingdom in decline, in a cold flatland at the end of things.
+      There is still much to decide.
+    </general-description>
+    <npcs>
+      King Pip: Still present. The urgency is gone from his bearing. He seems
+      older now that he is no longer braced against something. He has questions
+      for the new heir — practical ones. He will not survive to see much of what
+      comes next and he knows it.
+    </npcs>
+    <constraints>
+      This is an epilogue-entry world. The tone should be quiet and consequential.
+      The player's choices now concern what kind of ruler they intend to be, and
+      what King Pip wants to tell them before he goes. No combat. No urgency.
+      The mood is: the hard thing is done, now what?
+    </constraints>
+  </body>
+</wtml>
