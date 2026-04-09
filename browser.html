@@ -541,7 +541,11 @@ function extractHTML(raw) {
   throw mk('INVALID_HTML', 'No HTML document found in model response', 0, raw.slice(0,600));
 }
 function patchPostMsg(html) {
-  return html.replace(/postMessage\(\s*(\{[\s\S]+?\})\s*,\s*['"`]\*['"`]\s*\)/g, 'postMessage($1, window.location.origin)');
+  // srcdoc iframes have origin "null" so window.location.origin crashes as a postMessage target.
+  // Normalise all target origins to "*". The parent filters on event.data.type, so this is safe.
+  html = html.replace(/postMessage\(\s*(\{[\s\S]+?\})\s*,\s*['"`]\*['"`]\s*\)/g,               'postMessage($1, "*")');
+  html = html.replace(/postMessage\(\s*(\{[\s\S]+?\})\s*,\s*window\.location\.origin\s*\)/g,   'postMessage($1, "*")');
+  return html;
 }
 
 // ── Render cycle ──────────────────────────────────────────────────────────────
@@ -665,6 +669,8 @@ async function runDigestInvocation() {
 window.addEventListener('message', async (event) => {
   const d = event.data;
   if (!d || d.type !== 'wttp-action') return;
+  // Show feedback immediately — before any async work
+  showLoading(true, 'Processing action…', escapeHTML(String(d.action||'').slice(0,80)));
   session.actionHistory.push(d.action);
   if (d.newLocation)  session.userLocation = String(d.newLocation).slice(0,60);
   if (d.newUserState) session.userState    = String(d.newUserState).slice(0,60);
