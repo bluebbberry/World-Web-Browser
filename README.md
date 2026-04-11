@@ -135,3 +135,7 @@ This implementation covers:
 - ✅ World transitions (Section 4.5)
 - ⚠️  Sandboxed iframe: uses blob: URLs (functionally equivalent, minor deviation)
 - ⚠️  Parallel render+proximity: sequenced for browser simplicity (proximity runs first)
+
+## Demo
+
+![Screenshot of app](figures/img.png)
