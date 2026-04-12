@@ -1,8 +1,6 @@
 # World Web Browser — Local Setup
 
-A complete implementation of the WW (World Web) spec v1.3  (see [World Web v1.3](https://github.com/user-attachments/files/26661587/WW_Technical_Specification_v1_3.pdf)).
-
-Video demo: [Demo](https://makertube.net/w/1E6JkKHma9uzCRREwgC7M8)
+A complete implementation of the WW (World Web) spec v1.3  (see [World Web v1.3](https://github.com/user-attachments/files/26661587/WW_Technical_Specification_v1_3.pdf)). You can find a video demo [here](https://makertube.net/w/1E6JkKHma9uzCRREwgC7M8).
 
 ## Quick Start
 
