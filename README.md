@@ -1,6 +1,6 @@
 # World Web Browser — Local Setup
 
-A complete implementation of the WW (World Web) spec v1.2  (see https://philpapers.org/rec/BINWWS).
+A complete implementation of the WW (World Web) spec v1.3  (see [World Web v1.3](https://github.com/user-attachments/files/26661587/WW_Technical_Specification_v1_3.pdf)).
 
 ## Quick Start
 
