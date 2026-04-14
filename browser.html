@@ -570,6 +570,7 @@ function buildSystemPrompt(seed) {
     '- newUserState: player condition or mood after this action (short phrase).\n' +
     '- newNpcState: optional comma-separated "Name:state" pairs, or empty string.\n' +
     '- Button labels are short (2-6 words). Scene text is vivid but concise.\n' +
+    '- CRITICAL: The action history shows every choice the player has already made. You MUST advance the story past those events — never re-describe or repeat a scene already in the history.\n' +
     '- Reflect action history. Keep NPCs consistent with NPC state map.\n' +
     '- Output nothing outside the <scene>…</scene> tags.';
 }
@@ -704,20 +705,11 @@ function renderSceneToHTML(scene, seed) {
 
   lines.push('<' + 'script>');
   lines.push('var ACTIONS = ' + actionData + ';');
-  lines.push('document.querySelectorAll("button[data-idx]").forEach(function(btn) {');
-  lines.push('  btn.addEventListener("click", function() {');
-  lines.push('    var a = ACTIONS[parseInt(btn.getAttribute("data-idx")) - 1];');
-  lines.push('    if (!a) return;');
-  lines.push('    window.parent.postMessage({type:"wttp-action",action:a.label,newLocation:a.newLocation,newUserState:a.newUserState,newNpcState:a.newNpcState},"*");');
-  lines.push('  });');
-  lines.push('});');
-  // Bootstrap shim — must come before any button listener code so the
-  // MessageChannel port handed from the parent is wired up before clicks.
+  // Bootstrap shim — runs first so window.parent.postMessage is overridden
+  // before any button click can fire.
   lines.push('(function(){');
   lines.push('  var port=null,queue=[];');
-  lines.push('  window.__wwbSend=function(d){port?port.postMessage(d):queue.push(d);};');
-  lines.push('  var orig=window.parent.postMessage.bind(window.parent);');
-  lines.push('  window.parent.postMessage=function(d){window.__wwbSend(d);};');
+  lines.push('  window.__wwbSend=function(d){if(port){port.postMessage(d);}else{queue.push(d);}};');
   lines.push('  window.addEventListener("message",function(ev){');
   lines.push('    if(ev.data&&ev.data.__wwb_init&&ev.ports&&ev.ports[0]){');
   lines.push('      port=ev.ports[0];');
@@ -726,6 +718,13 @@ function renderSceneToHTML(scene, seed) {
   lines.push('    }');
   lines.push('  });');
   lines.push('})();');
+  lines.push('document.querySelectorAll("button[data-idx]").forEach(function(btn) {');
+  lines.push('  btn.addEventListener("click", function() {');
+  lines.push('    var a = ACTIONS[parseInt(btn.getAttribute("data-idx")) - 1];');
+  lines.push('    if (!a) return;');
+  lines.push('    window.__wwbSend({type:"wttp-action",action:a.label,newLocation:a.newLocation,newUserState:a.newUserState,newNpcState:a.newNpcState});');
+  lines.push('  });');
+  lines.push('});');
   lines.push('</' + 'script>');
   lines.push('</body></html>');
 
