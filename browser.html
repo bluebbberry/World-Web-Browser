@@ -540,9 +540,12 @@ function parseLinks(doc) {
     return { href: el.getAttribute('href'), criterion: el.getAttribute('proximity-criterion') || '' };
   });
 }
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
 function getRenderingSeed(doc) {
   var el = doc.querySelector('rendering-seed');
-  return el ? el.textContent.trim() : '';
+  return (el ? el.textContent.trim() : '') + '-' + getRandomInt(1000000);
 }
 function sanitise(text) {
   text = text.replace(/\[(SYSTEM|USER|WTML DOCUMENT|CURRENT SESSION STATE|NPC STATE MAP|ACTION HISTORY|RENDER INSTRUCTION)[^\]]*\]/gi, '[...]');
@@ -559,7 +562,7 @@ function buildSystemPrompt(seed) {
     'Output ONLY a <scene> XML fragment — no prose, no markdown, nothing else.\n\n' +
     'FORMAT (strictly follow this structure):\n' +
     '<scene>\n' +
-    '<text>2-4 sentences describing the current scene, grounded in the world and session state.</text>\n' +
+    '<text>2-10 sentences describing the current scene (potentially with dialog), grounded in the world and session state.</text>\n' +
     '<action id="1" newLocation="WHERE" newUserState="STATE" newNpcState="">Short button label</action>\n' +
     '<action id="2" newLocation="WHERE" newUserState="STATE" newNpcState="">Short button label</action>\n' +
     '</scene>\n\n' +
@@ -570,7 +573,7 @@ function buildSystemPrompt(seed) {
     '- newUserState: player condition or mood after this action (short phrase).\n' +
     '- newNpcState: optional comma-separated "Name:state" pairs, or empty string.\n' +
     '- Button labels are short (2-6 words). Scene text is vivid but concise.\n' +
-    '- CRITICAL: The action history shows every choice the player has already made. You MUST advance the story past those events — never re-describe or repeat a scene already in the history.\n' +
+    '- CRITICAL: The action history shows every choice the player has already made. You MUST advance the story past those events — never re-describe or repeat a scene already in the history. Focus on the last action.\n' +
     '- Reflect action history. Keep NPCs consistent with NPC state map.\n' +
     '- Output nothing outside the <scene>…</scene> tags.';
 }
@@ -980,6 +983,17 @@ async function loadURL(rawUrl, isTransition) {
     if (!isTransition && !session.actionHistory.length) {
       var gd = doc.querySelector('general-description');
       session.worldState = gd ? gd.textContent.trim().slice(0, 200) : '';
+      var locEl   = doc.querySelector('user > initial-location');
+      var stateEl = doc.querySelector('user > initial-state');
+      var userEl  = doc.querySelector('user');
+      if (locEl) {
+        session.userLocation = locEl.textContent.trim().slice(0, 60);
+      } else if (userEl) {
+        session.userLocation = userEl.textContent.trim().slice(0, 60);
+      }
+      if (stateEl) {
+        session.userState = stateEl.textContent.trim().slice(0, 60);
+      }
     }
     updateSidebarState();
     document.getElementById('ver-badge').textContent  = 'v' + ver;

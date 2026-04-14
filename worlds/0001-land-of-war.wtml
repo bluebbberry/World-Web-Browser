@@ -55,6 +55,11 @@
       accept flattery or false promises. He respects directness. He is afraid,
       though he would not say so.
     </npcs>
+    <user>
+      <initial-location>Castle gates, Land of War</initial-location>
+      <initial-state>Traveler, hired by the king to find a worthy heir</initial-state>
+      <description>Stands before the castle. Was hired by King Pip to find someone worthy to inherit the kingdom before he dies.</description>
+    </user>
     <constraints>
       The world is largely depopulated. Any new character encountered should feel
       surprising and significant — their presence needs a reason. The tone is
