@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Helix Dynamics — Exit Interview</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9010-whistleblower.wtml"
+      proximity-criterion="Has the player contacted the Interstellar Engineering Standards Bureau directly with evidence of the prior Lab 7 incident after being terminated?" />
+    <rendering-seed>helix-dynamics-9006-termination-aftermath-quiet-corridor-reflection</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      HR Suite, Ring 3. Beige. A plant that might be artificial. A window
+      that looks into a corridor rather than out into space. The HR
+      representative has a very neutral face and is very good at her job.
+      Your personal locker has already been cleared. Security Officer
+      Oluwaseun is waiting in the corridor — not unkindly, just
+      procedurally. Your station badge has been deactivated.
+      You can feel that it's deactivated because the door to
+      the suite opened for her, not for you.
+    </atmosphere>
+    <societal-structure>
+      Termination of a probationary contract at Helix Dynamics is routine
+      and processed within 24 hours. You will receive your first month's
+      pay, a standard reference that confirms dates of employment and
+      job title, and a document that you are not required to sign but are
+      strongly encouraged to: a non-disclosure agreement with a
+      17,000-credit settlement offer. The HR representative explains
+      this calmly. It is described as "customary."
+    </societal-structure>
+    <geography>
+      HR Suite. A table. Two chairs. A terminal. A box with your things
+      in it — your mug, your personal tablet, a half-finished pack of
+      the coffee you brought from home. You have one hour before the
+      shuttle to the transit hub departs. After that, no scheduled
+      departures for sixteen hours.
+    </geography>
+    <general-description>
+      You were found in Lab 7 at 23:47 on your first day of employment.
+      Security Officer Oluwaseun was professional throughout. The Category 3
+      access violation was logged. Your probationary contract was terminated
+      at 08:00 the following morning. You have not yet decided whether
+      to sign the NDA. The fragment of test printout you found is in
+      your jacket pocket — you palmed it before Oluwaseun could see it.
+      You haven't been asked about it. You don't know if they know
+      you have it. You have about forty minutes before you have
+      to decide about the shuttle.
+    </general-description>
+    <npcs>
+      HR Representative Soo-Jin Park: Efficient, neutral, not unkind. She has
+      done this many times. She is not the enemy. She is the process. She will
+      answer direct questions with whatever she is permitted to tell you —
+      which is not much, but is not nothing.
+
+      Tomás Engel: Messaged you at 07:47: "heard what happened. i'm sorry.
+      you okay?" He does not know about the printout. He is still inside,
+      still employed, starting on his team assignment today.
+
+      Chief Engineer Ryo Sato: You've never met him. His name is on the
+      Lab 7 test log you saw. He knows that. Whether he knows about the
+      printout in your pocket is the question you cannot answer.
+    </npcs>
+    <user>
+      <initial-location>HR Suite, Ring 3, Helix Dynamics Orbital Yard</initial-location>
+      <initial-state>
+        Terminated on day one. In possession of an unofficial document
+        that may indicate a suppressed incident on the program you were
+        hired to work on. NDA on the table. Shuttle in forty minutes.
+        Badge deactivated.
+      </initial-state>
+      <description>
+        This is not how today was supposed to go. But you have something
+        in your pocket, and a decision to make, and the clock is running.
+      </description>
+    </user>
+    <constraints>
+      This is not a failure state — it is a divergent path. The player
+      made an audacious choice, got caught, and now faces a different
+      and genuinely interesting situation. The NDA is real moral pressure,
+      not a cartoon villain move: it's a lot of money, and the player
+      was terminated fairly. The printout is ambiguous evidence —
+      suggestive, not conclusive. The tone is quiet, a little defeated,
+      but not hopeless. The player still has agency. The most interesting
+      choice in the room is the one they haven't made yet.
+    </constraints>
+  </body>
+</wtml>

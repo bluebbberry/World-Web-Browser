@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Helix Dynamics — MCF Perseverance Incident</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9010-whistleblower.wtml"
+      proximity-criterion="Has the player compiled their original anomaly data and submitted a full technical account to the IESB incident investigation?" />
+    <rendering-seed>helix-dynamics-9009-incident-report-aftermath-gravity-accountability</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      The message arrived at 06:14 station time on a Tuesday. A one-line
+      alert in the Helix Dynamics internal news feed: "MCF Perseverance —
+      drive anomaly reported — vessel operating on backup systems —
+      crew safe." By 08:00 it was on the public feeds. By 09:00 the
+      Helix Dynamics share price had moved. By 10:00 you had received
+      a message from Legal. By 10:15 you had received a message from
+      Dr. Freya Andersen at the IESB. Her message was seven words:
+      "I need to speak with you. Today."
+    </atmosphere>
+    <societal-structure>
+      An in-service drive failure on a crewed Colonial Fleet vessel
+      is a Tier 1 incident under IESB regulations. An automatic
+      investigation is mandatory. All documentation related to the
+      drive's qualification programme is now evidence. This includes
+      your original anomaly report, the board's findings, and every
+      signature in the test log. The Legal message advised you not
+      to speak to anyone about MJOLNIR without counsel present.
+      The IESB message doesn't have that restriction. You have to
+      choose which call to return first.
+    </societal-structure>
+    <geography>
+      Your workstation, Lab 9. The telemetry window you opened three
+      months ago showing the Perseverance's drive data is still open.
+      It is now flagged red and showing the drive status as OFFLINE —
+      SAFE MODE. The crew status reads: 14 crew, all accounted for.
+      The backup ion drive is running. The vessel is 40 light-minutes
+      from the nearest relay station. They are not in danger. This
+      time.
+    </geography>
+    <general-description>
+      The drive failed. The anomaly you found in Cycle 7 — the resonance
+      pattern that ARIA modelled and the board cleared as a one-time
+      artifact — recurred at 847 operating hours under full service load.
+      The confinement coil cracked. The failsafe triggered as designed.
+      The crew is safe. The drive is destroyed. The investigation will
+      determine whether the board's finding was wrong, whether the
+      data was inadequate, or whether the design had a flaw that
+      qualified testing should have caught. Your name is in the record.
+      You reported the anomaly. You did what you were supposed to do.
+      Whether that will be enough depends on what the investigation finds.
+    </general-description>
+    <npcs>
+      Dr. Freya Andersen (IESB): The investigator. She was on the original
+      board. She cleared the drive. She is now re-examining that decision
+      and she needs your technical account. She is not hostile. She is
+      thorough, and she is not going to let this be clean if it isn't clean.
+
+      Legal Counsel (Obi Mwangi): Back. More serious this time. Genuinely
+      trying to protect you as well as the company — those interests align
+      right now. He wants to see your original data before you talk to anyone.
+
+      Dr. Priya Vasquez: Has not messaged you. That is, in itself, information.
+
+      Tomás Engel: Messaged at 08:43: "are you okay. i saw the news."
+      He is the only person today who has asked that.
+    </npcs>
+    <user>
+      <initial-location>Lab 9, Ring 2, Helix Dynamics Orbital Yard</initial-location>
+      <initial-state>
+        The drive failed in service. Crew safe. Investigation opened.
+        Legal and IESB are both waiting for your call. You have the
+        original anomaly data. You have your notes from the night
+        of Cycle 7. You reported correctly. The board cleared it.
+        The drive failed anyway.
+      </initial-state>
+      <description>
+        You were right, in a way that the process was also right,
+        and both of those things are true, and 14 people are alive
+        on backup power 40 light-minutes away. Now you do the next
+        right thing. You've been doing the next right thing since
+        Cycle 7. Keep going.
+      </description>
+    </user>
+    <constraints>
+      This is the hardest world in the series. The player did everything
+      correctly and the outcome was still bad — not catastrophic, but bad.
+      The tone should not be punishing. It should be honest. Nobody is
+      a villain. The board made a reasonable decision with limited data.
+      The player reported accurately. The drive failed anyway. That
+      happens. The question now is purely procedural and ethical:
+      give the investigation everything you have, clearly and without
+      self-protection. The crew is safe. That is not nothing.
+      Hold on to that.
+    </constraints>
+  </body>
+</wtml>

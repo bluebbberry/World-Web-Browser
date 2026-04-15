@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Helix Dynamics — Six Weeks Later</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9009-failure-mode.wtml"
+      proximity-criterion="Has the Mjolnir drive failed catastrophically during the client acceptance test?" />
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9008-cleared-to-fly.wtml"
+      proximity-criterion="Has the Mjolnir drive passed all subsequent tests with no further anomalies and been delivered successfully?" />
+    <rendering-seed>helix-dynamics-9005-suppression-dread-routine-wrong-professional-guilt</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      Everything looks normal. That is the problem. The lab is the same.
+      The monitors show clean telemetry. The drive runs its cycles and
+      returns data that falls within acceptable parameters. The coffee
+      is still good. Vasquez gave you a commendation for your conduct
+      during the test cycle, filed quietly in your personnel record.
+      You have not slept well in six weeks.
+    </atmosphere>
+    <societal-structure>
+      The MJOLNIR team is in delivery sprint. Everyone is working long
+      hours, focused, professional. No one mentions the anomaly from
+      Cycle 7. It was logged as "instrument transient — resolved" in
+      the test record. You signed off on that description. You were
+      the engineer on watch. It was your signature. Vasquez thanked
+      you in private. That was the only time it was acknowledged.
+    </societal-structure>
+    <geography>
+      Lab 4. The delivery checkpoint is in eleven days. The client —
+      the Meridian Colonial Fleet — has sent two observers who are
+      present for all final-phase tests. They have clipboards and
+      clearances and they ask questions in a friendly way that
+      is not entirely friendly. One of them keeps looking at the
+      Cycle 7 entry in the test log. He hasn't asked about it yet.
+    </geography>
+    <general-description>
+      Six weeks ago you agreed — under pressure, tired, with the
+      deadline looming — to let the anomaly go. The drive has run
+      clean since. You have told yourself, many times, that ARIA's
+      fourth hypothesis was the right one: a one-time pressure
+      coupling artifact, never to recur, not a design flaw.
+      You have also not been able to fully rule out hypotheses
+      one through three. The Meridian observer is reviewing
+      the test history today. He's going to reach Cycle 7
+      in about twenty minutes.
+    </general-description>
+    <npcs>
+      Dr. Priya Vasquez: Her behaviour toward you has been warm, professional,
+      and carefully normal. She has not brought up the anomaly once. You
+      do not know if she believes her own reassurances or not. You
+      have not asked. She trusts you now, in a way that feels like weight.
+
+      Observer-Commander Lise Hartmann: Meridian Colonial Fleet,
+      acceptance test observer. She is going through the test log
+      methodically, backwards from the most recent entry. She is
+      experienced and precise and has reviewed a hundred delivery
+      packages. She is not looking for problems. She is looking
+      for completeness. The Cycle 7 entry is not complete.
+
+      Yuki Okafor: Knows something is off. Hasn't said what. Has been
+      watching you. Not with suspicion — more like concern. Brought
+      you coffee this morning without being asked.
+    </npcs>
+    <user>
+      <initial-location>Lab 4, Block A, Ring 1, Helix Dynamics Orbital Yard</initial-location>
+      <initial-state>
+        Six weeks after the anomaly. You suppressed the report. The drive
+        has run clean since. Delivery is in eleven days. A client observer
+        is reviewing test logs and will reach the Cycle 7 entry shortly.
+        You are standing at your console trying to look like everything
+        is fine.
+      </initial-state>
+      <description>
+        You made a choice under pressure. You have been living with it.
+        You still don't know if you were right. In eleven minutes, you
+        might find out — or be forced to decide again.
+      </description>
+    </user>
+    <constraints>
+      This is a slow-burn dread scenario. The tone is not accusatory —
+      the player made a plausible choice and the world did not immediately
+      punish them for it. The tension comes from uncertainty: maybe it was
+      fine. Maybe it wasn't. The observer is not a trap — she's a person
+      doing her job. Whether the player comes clean now, stays quiet, or
+      something in between should all be live options. The moral weight
+      should come from the engineering reality: if the drive fails with
+      crew aboard, the question of whether the anomaly was the cause
+      will be unanswerable. That's the thing you can't unfeel.
+    </constraints>
+  </body>
+</wtml>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>IESB Field Office — Six Months Later</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9011-new-cycle.wtml"
+      proximity-criterion="Has the IESB investigation concluded, the Mjolnir findings been published, and the player moved on to new work — at a different company?" />
+    <rendering-seed>helix-dynamics-9010-whistleblower-aftermath-transition-hard-won-quiet</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      The IESB field office on Waystation Kepler-7 is nothing like the
+      Helix Dynamics orbital yard. It's smaller, older, and run on a
+      budget that shows. The chairs are mismatched. The coffee is instant.
+      The view from the single window is of a docking bay and a section
+      of hull belonging to a survey vessel that's been in for maintenance
+      for two months. It is entirely unglamorous. Andersen has a desk here.
+      So, temporarily, do you.
+    </atmosphere>
+    <societal-structure>
+      You submitted your evidence to the IESB six months ago — the printout
+      from Lab 7, your own anomaly data from Cycle 7, and a formal technical
+      account. Helix Dynamics terminated your NDA claim when you went to
+      the bureau. The whistleblower statute protected your employment record
+      from formal sanction, but Helix Dynamics did not offer to rehire you.
+      You did not expect them to. The IESB investigation is ongoing. Your
+      status is: Technical Consultant, Incident Review, per diem, six-month
+      contract. Andersen hired you personally. She has not said whether
+      the contract will be extended.
+    </societal-structure>
+    <geography>
+      Waystation Kepler-7 is a transit hub — not a fabrication yard.
+      People pass through. The IESB field office is permanent, but small.
+      You are currently reviewing the Lab 7 incident records, which
+      were subpoenaed and have been unsealed: Chief Engineer Ryo Sato
+      suppressed a near-identical anomaly eight months before your
+      test. The report he filed reads "transient — no further action."
+      Reading it makes you feel several things in sequence.
+    </geography>
+    <general-description>
+      You gave up a job, a salary, and professional proximity to the
+      industry's best propulsion engineers to sit in a mismatched chair
+      in a budget field office reviewing documents about a program
+      that is now under formal investigation. The Mjolnir drive has
+      been grounded. Helix Dynamics has suspended the programme.
+      Ryo Sato is on administrative leave. Vasquez has been asked
+      to cooperate with the investigation — she is cooperating.
+      The MCF Perseverance's crew are all back on active duty.
+      The drive didn't kill anyone. You don't know yet whether
+      your actions prevented future deaths or just created
+      significant disruption. Andersen tells you the data
+      will answer that, eventually. She says "eventually"
+      a lot.
+    </general-description>
+    <npcs>
+      Dr. Freya Andersen: Your temporary supervisor. Methodical, honest,
+      and quietly pleased that you came to her. Does not say so directly
+      but makes good coffee for you specifically, with the good beans
+      she keeps in her desk. This is her way of expressing things.
+
+      Tomás Engel: Still at Helix Dynamics. Messages you sometimes.
+      Says the yard feels different now. Doesn't elaborate. You think
+      you know what he means.
+
+      Chief Engineer Ryo Sato: You have never met him. You are
+      reading his suppressed reports. They are meticulously formatted
+      and technically precise and they make a choice, clearly visible
+      in retrospect, to use ambiguous language at the exact moments
+      that mattered. You understand why. You also don't forgive it.
+      Both of those things are true.
+    </npcs>
+    <user>
+      <initial-location>IESB Field Office, Waystation Kepler-7</initial-location>
+      <initial-state>
+        Six months out. Working for the bureau as a technical consultant
+        on the Mjolnir investigation. The investigation is proceeding.
+        The drive is grounded. You are out of the industry, temporarily
+        or permanently — you don't know yet. You are reading Sato's
+        suppressed report for the third time.
+      </initial-state>
+      <description>
+        You went outside the system when the system was insufficient.
+        It cost you something real. The investigation is finding what
+        you found. That is the job you're doing now. Whether it was
+        the right choice is a question you're done asking yourself.
+        You made it. You live in it. Keep reading.
+      </description>
+    </user>
+    <constraints>
+      This is a world about the long tail of doing the hard thing.
+      Not triumphant. Not broken. The player is competent, intact,
+      and living with a choice that had real costs and real effects.
+      The tone should honour both. The investigation process is real
+      work — document review, technical analysis, careful reconstruction
+      of decisions made under pressure by people who are not
+      cartoonishly corrupt. Sato is not a monster. He is someone
+      who chose wrong, once, and then kept choosing wrong because
+      stopping was harder each time. The player didn't make those
+      choices. That matters. The coffee Andersen makes you matters.
+      Small things hold you together in long investigations. Let them.
+    </constraints>
+  </body>
+</wtml>

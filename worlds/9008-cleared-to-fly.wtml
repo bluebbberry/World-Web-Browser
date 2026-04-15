@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Helix Dynamics — Delivery + 90 Days</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9011-new-cycle.wtml"
+      proximity-criterion="Has the player moved on to a new project at Helix Dynamics, fully at peace with the Mjolnir outcome?" />
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9009-failure-mode.wtml"
+      proximity-criterion="Has news arrived that the Mjolnir drive has exhibited anomalous behaviour in service aboard a Meridian Colonial Fleet vessel?" />
+    <rendering-seed>helix-dynamics-9008-delivery-aftermath-quiet-doubt-professional-normal</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      Ninety days after delivery. Helix Dynamics has moved on — the
+      MJOLNIR programme is in the archive, the team has been reassigned,
+      the lab repurposed for a new contract. The station feels the same
+      as always. You have a new project. You have a small promotion
+      built into your six-month review. The Mjolnir drive is currently
+      aboard the MCF Perseverance, 40 light-minutes out and accelerating
+      toward its first transit. The telemetry Meridian shares publicly
+      shows nominal performance. You check it sometimes. Not every day.
+      Some days.
+    </atmosphere>
+    <societal-structure>
+      You are a full team member now, no longer technically probationary.
+      Your work on MJOLNIR is on your record as a completed qualification
+      programme. Vasquez gave you a positive review. Your next assignment
+      is a heat-shield qualification contract for a civilian orbital
+      transfer vehicle — less dramatic, more methodical. Standard work.
+      You are good at it.
+    </atmosphere>
+    <geography>
+      Lab 9, Ring 2. Bigger than Lab 4, fewer monitors, more floor space.
+      Your workstation has a window now — you can see the gas giant from
+      it. The MCF Perseverance is too small to see at this distance,
+      obviously. This has not stopped you from looking in its direction
+      on occasion.
+    </geography>
+    <general-description>
+      The Technical Review Board cleared the drive. Subsequent testing
+      produced no further anomalies. ARIA's fourth hypothesis held:
+      a one-time pressure artifact, never recurred. The board's finding
+      was documented and closed. You were listed as the reporting engineer.
+      The drive was delivered. The fleet accepted it. 14 crew are aboard
+      the Perseverance right now, and the drive is running as designed,
+      and the data says everything is fine. You did your job. You
+      reported the anomaly. The process reached a conclusion. The
+      conclusion was: it's fine. You believe this, mostly. The
+      "mostly" has a frequency. Like a knock in a pipe. Once every
+      forty seconds, or so.
+    </general-description>
+    <npcs>
+      Dr. Priya Vasquez: On the new project with you. Professional,
+      warm, normal. Occasionally mentions Mjolnir in passing — as
+      a completed thing, handled correctly. She seems to have resolved
+      it fully. You are not sure you have. You have not told her that.
+
+      Yuki Okafor: Still on the team. Has not mentioned Mjolnir since
+      delivery. Brought you coffee again this morning. Still watching
+      you, in that way.
+
+      Tomás Engel: Now a friend, properly. Working a different project,
+      different lab. You have lunch with him sometimes. He knows you
+      reported the anomaly and that it was cleared. He thinks that's
+      the end of the story. You have not told him it doesn't feel like it.
+    </npcs>
+    <user>
+      <initial-location>Lab 9, Ring 2, Helix Dynamics Orbital Yard</initial-location>
+      <initial-state>
+        Ninety days post-delivery. New project. Small promotion.
+        Mjolnir is closed, archived, done. The drive is in service.
+        You check the telemetry sometimes. You are fine.
+      </initial-state>
+      <description>
+        The system worked. The data was reviewed. The conclusion was clear.
+        The crew is fine. You are a good engineer. Good engineers trust
+        the process when the process runs correctly. The process ran
+        correctly. You are fine. You check the telemetry feed.
+        It shows nominal. You minimise the window. You open it again.
+      </description>
+    </user>
+    <constraints>
+      This is the ambiguous resolution — neither vindication nor failure,
+      but the real-world engineering reality where correct process
+      doesn't always produce certainty. The player did everything right.
+      The outcome is probably fine. The doubt is not paranoia — it is
+      appropriate epistemic humility about a system they can no longer
+      observe or affect. Do not resolve this artificially. Let it sit.
+      If news comes of a failure (transition to 9009), it should feel
+      earned but not inevitable. If the player moves on (transition to 9011),
+      that should also feel legitimate. Both are real choices. Neither
+      is wrong.
+    </constraints>
+  </body>
+</wtml>

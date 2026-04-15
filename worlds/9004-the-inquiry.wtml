@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Helix Dynamics — Technical Review Board, Day 1</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9007-vindicated.wtml"
+      proximity-criterion="Has the Technical Review Board concluded the anomaly represents a genuine design flaw and halted the Mjolnir program pending redesign?" />
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9008-cleared-to-fly.wtml"
+      proximity-criterion="Has the Technical Review Board concluded the anomaly was a one-time artifact and cleared the Mjolnir drive for delivery?" />
+    <rendering-seed>helix-dynamics-9004-boardroom-inquiry-testimony-professional-pressure</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      The Technical Review Board meets in Conference Suite 1, Executive Level,
+      Ring 1 — the only ring with actual windows. Through the glass: the
+      station's assembly core, and beyond it, a slice of the gas giant the
+      station orbits, its amber bands moving with glacial slowness. The
+      conference table is real wood — imported, absurdly expensive,
+      a statement. The people seated around it are not hostile. They are
+      careful. There is a difference.
+    </atmosphere>
+    <societal-structure>
+      The Technical Review Board consists of: Executive Engineer Harlan Cho
+      (chair), two external safety assessors from the Interstellar Engineering
+      Standards Bureau, a legal representative from Helix Dynamics counsel,
+      and Vasquez — seated across from you, her face professionally neutral.
+      You have been asked to present your findings. You are not on trial.
+      The framing of that sentence, in the email you received, felt deliberate.
+    </societal-structure>
+    <geography>
+      Conference Suite 1. One door in, one door out. A presentation terminal
+      at the head of the table. You have your data on a drive in your breast
+      pocket. The ARIA simulation you ran — the one that modelled four possible
+      causes for the resonance anomaly — is loaded and ready. Outside the
+      window, the gas giant doesn't care.
+    </geography>
+    <general-description>
+      You filed the anomaly report at 03:15 station time. By 07:00 it had been
+      escalated to Cho. By 09:00 the board was convened. It is now 14:00 and
+      you are presenting your findings to people who have the authority to halt
+      a two-billion-credit program or clear it for delivery in six weeks.
+      Vasquez has not spoken to you since the telemetry room. The external
+      assessors asked for your raw data before the meeting. One of them —
+      a quiet woman named Dr. Freya Andersen — has already flagged three
+      follow-up questions in the shared document. She knows what she's looking
+      at. Cho is listening with his hands folded, expression unreadable.
+    </general-description>
+    <npcs>
+      Executive Engineer Harlan Cho: 50s, controlled, politically skilled.
+      Genuinely cares about engineering integrity but also about the company.
+      He is trying to find out if you are right before deciding what to do
+      about it. He will ask the question no one else asks.
+
+      Dr. Freya Andersen: External safety assessor, IESB. Specialist in
+      plasma confinement dynamics. Has seen cover-ups before. Is not assuming
+      one here, but is not assuming there isn't one either. Her questions
+      are precise to the point of being uncomfortable.
+
+      Dr. Priya Vasquez: Seated across the table. Has not contradicted
+      your report. Has also not confirmed it. She is waiting to see
+      where the evidence lands before committing to a position.
+      This is rational. It is also difficult to watch.
+
+      Legal Counsel (name: Obi Mwangi): There to represent Helix's interests.
+      Will intervene if anything veers into liability territory. Not an engineer.
+      Smart enough to know what he doesn't know.
+    </npcs>
+    <user>
+      <initial-location>Conference Suite 1, Executive Level, Ring 1, Helix Dynamics Orbital Yard</initial-location>
+      <initial-state>
+        Three weeks in. You reported the anomaly. The board has been convened.
+        You are the primary witness and the engineer who logged the finding.
+        You have data, a simulation, and three weeks of institutional knowledge
+        about a program you've barely started on.
+      </initial-state>
+      <description>
+        You did the right thing. Whether that was also the smart thing is
+        still being determined. You know your data. You know what ARIA showed.
+        Present it clearly, answer the questions, and let the people with
+        more context than you make the call. That's the job.
+      </description>
+    </user>
+    <constraints>
+      This is a testimony scene. The drama is in precision: the player's
+      expertise is tested, their credibility is being evaluated, and the
+      outcome is genuinely uncertain. No clear villains — the board is doing
+      its job. Vasquez's ambiguity should feel human, not sinister. The
+      external assessor is the player's unexpected ally — someone who
+      actually speaks the same technical language. The legal counsel is
+      not an obstacle, just a presence. Cho is the one to read. The window
+      with the gas giant should come back. It's the only thing in the room
+      that has no stake in the outcome.
+    </constraints>
+  </body>
+</wtml>

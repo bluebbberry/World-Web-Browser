@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Helix Dynamics — Lab 7, After Hours</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9002-reactor-anomaly.wtml"
+      proximity-criterion="Has the player discovered what happened in Lab 7 and reported it through proper channels, then been reassigned to the Mjolnir team?" />
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9006-terminated.wtml"
+      proximity-criterion="Has the player been caught in Lab 7 by station security and escorted to HR?" />
+    <rendering-seed>helix-dynamics-9003-afterhours-mystery-dark-corridors-industrial-tense</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      Night-cycle on Ring 2 means most of the overhead strips have dropped to
+      15% — enough to navigate, not enough to read by. The canteen is closed.
+      The engineering pool is empty. The maintenance shaft behind Lab 7 smells
+      of coolant and dust and runs parallel to a pipe that makes a slow
+      rhythmic knock every forty seconds. The lab door at the end of the shaft
+      has a keypad, but the panel cover is loose. Someone has been here
+      before you.
+    </atmosphere>
+    <societal-structure>
+      Station security runs on a skeleton crew at night: two officers for the
+      whole of Ring 2. Access logs are reviewed automatically every six hours.
+      Engineering staff are trusted within their assigned areas and not expected
+      to wander. Being caught in a restricted lab on your first day would be
+      a Category 3 access violation — grounds for immediate termination of
+      a probationary contract.
+    </societal-structure>
+    <geography>
+      The maintenance shaft connects to Lab 7 via a side panel that is —
+      technically — not locked. Lab 7 itself is a medium test bay, similar
+      to Lab 4. The test rig inside appears to have been cleaned very recently.
+      Too recently: you can still smell the solvent. The test log terminal
+      is on. Someone left it on. The last entry is timestamped six days ago
+      and reads: "CYCLE 12 — ABORT — SEE INCIDENT FORM HD-7-2291." There
+      is no incident form HD-7-2291 in the public document system.
+    </geography>
+    <general-description>
+      You skipped the last half of orientation to follow a hunch. The restricted
+      notice on Lab 7 combined with the vague language in your onboarding packet
+      about "project continuity reviews" didn't sit right. You found the
+      maintenance shaft by reading the station blueprints that SORA will give
+      anyone who asks. You're in now. The lab is empty and has been scrubbed.
+      But not perfectly. A small fragment of printed test output has slipped
+      behind the coolant feed conduit — only visible because you're looking
+      at floor level. The numbers on it are from a plasma drive test.
+      They look familiar. They look like Mjolnir specs.
+    </general-description>
+    <npcs>
+      Chief Engineer Ryo Sato: Does not know you exist yet. Is the reason Lab 7
+      is locked. You will not meet him tonight, but you will know his name before
+      you leave — it's on the test log as supervising engineer for Cycle 12.
+
+      Station Security Officer Dami Oluwaseun: On patrol. Estimated 22-minute
+      circuit of Ring 2. You've been in the lab for 11 minutes. Professional,
+      thorough, not unkind — but rules are rules and she takes them seriously.
+
+      Tomás Engel: Reachable by personal comm. He saw you slip out of orientation.
+      He hasn't said anything to anyone, but he messaged you: "where did you go."
+      He might cover for you. He might not. You don't know him yet.
+    </npcs>
+    <user>
+      <initial-location>Lab 7, Block C, Ring 2, Helix Dynamics Orbital Yard</initial-location>
+      <initial-state>
+        First day. Unauthorised access to a restricted lab. Have found a
+        partial test printout that may indicate the project you've just been
+        assigned to has a prior incident nobody mentioned in your onboarding.
+        Security patrol is ongoing. You have minutes, at most.
+      </initial-state>
+      <description>
+        You broke protocol on day one because something felt wrong. You might
+        be right. You are definitely not supposed to be here. What you do
+        with the next few minutes will define what kind of engineer you are.
+      </description>
+    </user>
+    <constraints>
+      Tone: tense, grounded, ethically interesting. This is not a heist —
+      it's a person trusting their instincts and discovering they've stumbled
+      into something real. The player is not a spy or a hero. They are a
+      curious engineer who made a choice that might be catastrophically wrong
+      or surprisingly justified. No violence. No running. The tension is
+      cognitive: what do you take, what do you leave, who do you tell?
+      The numbers on the printout should be specific enough to feel real
+      — matching the resonance parameters from World 9002, if the player
+      later makes that connection.
+    </constraints>
+  </body>
+</wtml>

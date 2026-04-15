@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Helix Dynamics — MJOLNIR Test Cycle 7</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9004-the-inquiry.wtml"
+      proximity-criterion="Has the player formally logged the anomaly in the test record system and escalated to the Executive Engineer?" />
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9005-cover-it.wtml"
+      proximity-criterion="Has the player agreed to suppress or delay reporting the anomaly at Vasquez's request?" />
+    <rendering-seed>helix-dynamics-9002-test-lab-crisis-telemetry-late-night-tense</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      Lab 4 at 02:30 station time. The overhead strips are dimmed to night-mode —
+      amber rather than white — and the only real light comes from the telemetry
+      wall: a bank of twelve monitors showing the Mjolnir drive in the test chamber
+      behind three centimetres of pressure glass. The drive isn't running now. It
+      should be. The last thirty seconds of the test log shows something that
+      shouldn't be possible given the design specs.
+    </atmosphere>
+    <societal-structure>
+      The MJOLNIR team is small: six engineers including you, led by Vasquez under
+      the oversight of Executive Engineer Harlan Cho. The project is in its final
+      qualification phase — six weeks from a delivery deadline that Helix Dynamics
+      has publicly committed to. Missing that deadline costs the company 200 million
+      credits in penalties and probably several careers. The pressure is not spoken
+      about directly. It doesn't need to be.
+    </societal-structure>
+    <geography>
+      Lab 4 occupies the inner ring of Block A — closer to the zero-g assembly
+      core, where vibration from the station's own drives is minimised. The test
+      chamber is sealed behind an airlock. The telemetry room is where you are
+      now. A locker room and break room connect to the corridor. Vasquez's office
+      is a glass-walled box at the end of the floor — currently dark, but she's
+      still in the building: you can see her silhouette through the glass.
+    </geography>
+    <general-description>
+      Three weeks into your assignment to MJOLNIR, you were asked to run a
+      routine overnight thermal cycle on the drive while the senior engineers slept.
+      At 01:47, during the ramp-down phase, the drive's exhaust plasma exhibited a
+      resonance pattern that doesn't match any documented failure mode — or any
+      successful mode either. The test automatically halted. The drive is intact.
+      No alarm triggered. You've run the data three times. It's not instrument
+      error. Vasquez has just appeared in the doorway of the telemetry room,
+      still in her jacket, reading something on her tablet. She looks at you.
+      She looks at the monitors. Her expression does not change but she sets
+      down her coffee.
+    </general-description>
+    <npcs>
+      Dr. Priya Vasquez: Lead Engineer. She has seen the same data you have.
+      She has been on this project for two years. She knows what the deadline
+      means. She is not a dishonest person — but she is a person under enormous
+      pressure, and she is your direct superior. She is waiting to see what
+      you say first.
+
+      ARIA (Automated Research and Integration Assistant): The lab's test AI.
+      Connected to all telemetry. Can run simulations, pull historical test data,
+      cross-reference the anomaly against known drive behaviours across all Helix
+      projects. Will not make judgement calls. Will not lie.
+
+      Yuki Okafor: Senior Test Engineer, currently off-shift and reachable by
+      comm. Has the most drive-hours of anyone on the team. Slightly paranoid,
+      often right. Does not like being called after midnight but will take it
+      seriously if you do.
+    </npcs>
+    <user>
+      <initial-location>Telemetry Room, Lab 4, Block A, Helix Dynamics Orbital Yard</initial-location>
+      <initial-state>
+        Three weeks in. Overnight test watch. Just witnessed an unexplained
+        anomaly in the Mjolnir drive. Vasquez is in the doorway. You have the
+        raw data on your console. You have not yet filed any report.
+      </initial-state>
+      <description>
+        You ran the test correctly. You have the data. What you do next is yours
+        to decide. You know enough to know this matters. You also know what is
+        at stake for everyone on the team.
+      </description>
+    </user>
+    <constraints>
+      This is a moral and technical crossroads. The drama lives in the specifics:
+      what the data shows, what it might mean, how Vasquez behaves under pressure,
+      what the player owes to the process versus the team. No villains —
+      Vasquez is not corrupt, she is scared. The anomaly should feel technically
+      real: a resonance pattern in plasma exhaust during ramp-down, possibly
+      indicating an unmodelled coupling between the drive's magnetic confinement
+      coils. It could be a design flaw. It could be a one-time artifact. The
+      player's expertise is what makes them dangerous — they might actually be
+      right. Hard science fiction tone. No action. The tension is quiet and
+      professional.
+    </constraints>
+  </body>
+</wtml>

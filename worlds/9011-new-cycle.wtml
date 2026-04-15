@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Cascade Engineering — First Day</title>
+    <rendering-seed>helix-dynamics-9011-new-start-different-company-earned-experience-clear-eyed</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      Cascade Engineering's test facility is planetside — an unusual choice
+      for a propulsion contractor, but Cascade does unusual things and is
+      proud of it. The air smells like actual air: grass, humidity, a faint
+      trace of jet fuel from the adjacent aerospace strip. The building is
+      low, wide, concrete and glass. There are windows everywhere. Through
+      one of them, visible from the orientation room, is a mountain range
+      that has no rubble in it, only peaks. The coffee is mediocre, which
+      feels honest.
+    </atmosphere>
+    <societal-structure>
+      Cascade Engineering is smaller than Helix Dynamics — 3,000 employees,
+      three facilities, no orbital yards. They do advanced propulsion research
+      and prototype qualification. Their clients include three colonial
+      governments and two independent exploration consortia. Their safety
+      record is the best in the sector. It is also why they can attract
+      engineers who left somewhere else for principled reasons. The hire
+      manager mentioned this, briefly and without elaboration, during your
+      final interview. You understood.
+    </societal-structure>
+    <geography>
+      Orientation room, Building C. A window with a mountain range in it.
+      A room full of people starting new things. Different from the last
+      time you sat in an orientation room — you are not nervous in the
+      same way. You are something more useful than not-nervous: you are
+      clear on what you're doing and why.
+    </geography>
+    <general-description>
+      You are starting again, at a different company, with a record that
+      includes a completed qualification programme, a formal IESB technical
+      consultation, and — depending on which path brought you here —
+      either a commendation in your file or a gap in your employment
+      history that you've explained, simply and truthfully, in every
+      interview. Cascade Engineering hired you anyway. The Lead Engineer
+      here is named Marcus Osei. He was the external reviewer on the
+      Perseverance incident report. He knows your name. He asked for
+      you specifically. You only found that out after you accepted the
+      offer.
+    </general-description>
+    <npcs>
+      Marcus Osei: Lead Engineer, Cascade Engineering. 40s, deliberate,
+      the kind of person who pauses before speaking and means it. He has
+      read everything. He has not brought any of it up yet. He is letting
+      you have a first day. When he does bring it up — and he will — it
+      will be to ask what you learned, not to relitigate it.
+
+      The Orientation Cohort: Six engineers. Nervous, some of them.
+      Over-prepared, one of them. You recognise the type. You were
+      that type once. You are going to be a good colleague to them.
+
+      Tomás Engel: Texted you this morning: "good luck. let me know
+      how the coffee is." You texted back: "mediocre. feels right."
+      He sent a thumbs up. That's enough.
+    </npcs>
+    <user>
+      <initial-location>Orientation Room, Building C, Cascade Engineering, Kepler Station Surface Facility</initial-location>
+      <initial-state>
+        New hire, Senior Test Engineer. First day. Different company.
+        Lighter than you were. Clearer than you were. Ready for the work.
+      </initial-state>
+      <description>
+        This is what's on the other side of it. Not triumph — just
+        the next thing, done well, with better information than you
+        started with. The mountain range through the window is not
+        going anywhere. The coffee will not improve. You have a notebook,
+        a badge that works, and a first day. That's more than enough
+        to begin.
+      </description>
+    </user>
+    <constraints>
+      This is the epilogue world — convergence point for multiple paths.
+      The tone is earned-quiet optimism. Not everything was resolved.
+      The Mjolnir investigation may still be open. Vasquez's fate may
+      be uncertain. Sato may not have faced consequences yet. The player
+      carries that. But they are also here, starting something new,
+      and that is genuinely good. The mountains matter. Let the
+      ordinary details do the work. This world should feel like
+      a deep breath. No crises. No decisions with major consequences.
+      Just: the beginning of a thing, with the full weight of what
+      came before it, and the knowledge that the player — for all
+      their paths — did the work with integrity. That's the ending.
+      It doesn't need to be louder than that.
+    </constraints>
+  </body>
+</wtml>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Helix Dynamics — Orientation Day</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9002-reactor-anomaly.wtml"
+      proximity-criterion="Has the player been assigned to the Mjolnir drive test team and received their engineering badge?" />
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9003-late-shift.wtml"
+      proximity-criterion="Has the player chosen to skip orientation and sneak into Lab 7 after hours?" />
+    <rendering-seed>helix-dynamics-9001-corporate-scifi-industrial-clean-nervous-first-day</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      The Helix Dynamics orbital fabrication yard smells of ozone, recycled air,
+      and something faintly chemical that never quite identifies itself. Fluorescent
+      strips run the length of every corridor, slightly too bright. The station hums
+      at a frequency you feel in your back teeth. It is enormous — three kilometres
+      of pressurised ring around a zero-g assembly core — and it is never entirely
+      quiet. Somewhere, always, something is being stress-tested.
+    </atmosphere>
+    <societal-structure>
+      Helix Dynamics is a tier-one interstellar engineering contractor: publicly
+      traded, 40,000 employees across twelve stations and four planetary offices.
+      The fabrication yard is run by a layered hierarchy — Executive Engineers at
+      the top, then Leads, Seniors, Mid-levels, and at the bottom: Associates.
+      You are an Associate. The culture is performance-driven but not openly
+      hostile. People are too busy to be theatrical about it. Unions exist and are
+      quietly respected. There is a canteen on every ring-level and the coffee is
+      genuinely good.
+    </societal-structure>
+    <geography>
+      The orientation is held in Block C, Ring 2 — a windowless briefing suite
+      with too many chairs and a wall-mounted holo-display running a looping
+      corporate welcome reel. A corridor outside leads to the Engineering Pool
+      (where new hires are assigned to teams), the canteen, and — if you know
+      where to look — a maintenance shaft that runs behind Lab 7.
+    </geography>
+    <general-description>
+      Your first day at Helix Dynamics. You've been hired as a Test Engineer,
+      Grade 2 — tasked with qualification testing on propulsion systems. The
+      project you've been assigned to exists only as a code name in your onboarding
+      documents: MJOLNIR. Colleagues in the orientation cohort are nervous or
+      trying not to look it. A Lead Engineer named Vasquez is supposed to be
+      collecting you after the briefing, but the briefing ran long and she hasn't
+      appeared. A notice on the corridor board reads: "Lab 7 — ACCESS RESTRICTED
+      PENDING INCIDENT REVIEW." No further explanation.
+    </general-description>
+    <npcs>
+      Dr. Priya Vasquez: Lead Engineer, propulsion. Mid-40s, compact, moves like
+      someone who is always five minutes behind schedule. Direct but not unkind.
+      Holds her coffee cup with both hands when she's thinking. She will not waste
+      your time. She expects the same courtesy.
+
+      Tomás Engel: Fellow orientation-cohort hire, Test Engineer Grade 1. Nervous,
+      over-prepared, has already memorised the station map. Wants to make friends
+      but doesn't know how to start. Asks good questions during briefings.
+
+      Station Orientation AI ("SORA"): A soft-spoken voice that answers queries
+      via any terminal. Helpful, slightly over-literal. Will answer questions about
+      station layout, protocols, and procedures but will not speculate.
+    </npcs>
+    <user>
+      <initial-location>Block C Briefing Suite, Ring 2, Helix Dynamics Orbital Yard</initial-location>
+      <initial-state>
+        New hire, Test Engineer Grade 2. First day. Orientation just finished.
+        Waiting for Lead Engineer Vasquez. Slightly undercaffeinated.
+      </initial-state>
+      <description>
+        Fresh-hired test engineer starting at one of the sector's most prestigious
+        propulsion contractors. You tested ion drives at a smaller outfit for three
+        years before this — you know your way around a test rig. What you don't
+        know yet is what MJOLNIR is, why Lab 7 is locked down, or whether
+        Vasquez's lateness is normal or a sign of something.
+      </description>
+    </user>
+    <constraints>
+      Tone: grounded sci-fi workplace drama. Think the engineering sections of The
+      Expanse crossed with a real aerospace company culture. No action-movie heroics.
+      No aliens. The drama is human and technical. Characters swear occasionally
+      but professionally. The tech is hard-ish — plasma drives, stress testing,
+      telemetry, pressure cycles — not magic. The player's expertise is real and
+      should matter. Humour is dry and situational. The station is enormous and
+      mostly mundane; wonder comes from scale and engineering, not spectacle.
+    </constraints>
+  </body>
+</wtml>

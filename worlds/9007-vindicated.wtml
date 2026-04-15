@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wtml>
+<wtml lang="en" wtml-version="1.2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="wtml-version" content="1.2" />
+    <title>Helix Dynamics — MJOLNIR Redesign, Month 3</title>
+    <link rel="wtml"
+      href="http://localhost:3000/worlds/9011-new-cycle.wtml"
+      proximity-criterion="Has the player successfully completed the first clean qualification test on the redesigned MJOLNIR drive and signed off on the test report?" />
+    <rendering-seed>helix-dynamics-9007-vindicated-long-work-redesign-quiet-pride-new-normal</rendering-seed>
+  </head>
+  <body>
+    <atmosphere>
+      Lab 4, three months later. The overhead strips are still the same
+      fluorescent white. The telemetry wall has been upgraded — two new
+      monitors added, the resolution sharper. There's a new piece of
+      hardware behind the pressure glass that didn't exist before:
+      the redesigned confinement coil assembly, with the coupling
+      correction Dr. Andersen specified. It is physically smaller
+      than what it replaced. That still surprises you.
+    </atmosphere>
+    <societal-structure>
+      The MJOLNIR program pause cost Helix Dynamics the penalty clause
+      — 200 million credits — but the board's decision to halt rather
+      than ship is now being framed, in the company's public communications,
+      as "a demonstration of engineering integrity." Nobody who was in
+      that conference room believes that framing entirely, but nobody
+      disputes it either. The Meridian Colonial Fleet accepted a revised
+      delivery schedule. The contract held. Vasquez kept her job.
+      You got a salary review six weeks early.
+    </societal-structure>
+    <geography>
+      Lab 4 is the same. Your workstation is in the same place. The
+      break room coffee machine has been replaced — the new one makes
+      worse coffee, which has become a running joke. The test chamber
+      contains the redesigned drive. The test schedule on the wall
+      shows Qualification Cycle 1 beginning in four hours.
+    </geography>
+    <general-description>
+      The review board found it: a resonant coupling between the magnetic
+      confinement coils and the exhaust manifold at specific ramp-down
+      frequencies. Not catastrophic at test-bench power levels. At full
+      operational power — the power levels a Colonial Fleet vessel would
+      run in service — the modelling showed a 23% probability of coil
+      fracture within 800 operating hours. Enough time to get crew
+      into deep space. Not enough to get them back. The redesign took
+      ten weeks. Dr. Andersen oversaw it. You were included in the
+      technical working group. That was not standard for a Grade 2.
+      Vasquez requested it. She has not explained why, and you haven't
+      asked. You are four hours from the first clean test of a drive
+      that you, partially, helped fix.
+    </general-description>
+    <npcs>
+      Dr. Priya Vasquez: Something between you has shifted — not into
+      friendship exactly, but into something more honest. She was not
+      the villain of this story and she seems relieved that the story
+      didn't need one. She is meticulous about the redesign. She will
+      be standing at the telemetry wall with you in four hours.
+
+      Dr. Freya Andersen (IESB): Still present, overseeing final
+      qualification. Has been matter-of-fact about everything: the
+      flaw, the fix, the test. She told you, once, in passing, that
+      this is what the process is supposed to look like. She meant it
+      as a compliment.
+
+      Yuki Okafor: Senior Test Engineer. Was part of the redesign team.
+      Is quieter than before — the Lab 7 connection (the prior incident
+      in Lab 7 turned out to be an earlier, unlogged manifestation of
+      the same flaw) has been referred to an internal ethics review.
+      He is cooperating. He looks tired.
+    </npcs>
+    <user>
+      <initial-location>Lab 4, Block A, Ring 1, Helix Dynamics Orbital Yard</initial-location>
+      <initial-state>
+        Three months in. Grade 2, technically, though your role has
+        functionally expanded. The redesign is complete. First qualification
+        test in four hours. You are the engineer of record for the overnight
+        watch cycle that found the original anomaly. That is now a matter
+        of official documentation.
+      </initial-state>
+      <description>
+        The process worked. People got hurt by it in smaller ways — careers
+        slowed, money lost, a contract delayed. But the drive didn't go
+        into service with a flaw in it. You have four hours. The coffee
+        is worse than it used to be. The test is going to be fine.
+        You are fairly sure the test is going to be fine.
+      </description>
+    </user>
+    <constraints>
+      This is a resolution world, but not a triumphant one — the tone
+      should be earned-quiet rather than celebratory. The player is not
+      a hero; they did their job and the system, imperfectly, responded
+      correctly. The Lab 7 thread (Ryo Sato, prior suppressed incident)
+      is in the background — an unresolved ethical thread that the
+      redesign didn't fully close. The coming test should feel genuinely
+      significant. Not all tension is gone: first tests on redesigned
+      hardware are always tense. But the dread is different from World 9005.
+      This time, you know the data is right.
+    </constraints>
+  </body>
+</wtml>
