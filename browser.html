@@ -1120,10 +1120,26 @@ function showError(code, opts) {
 function hideError()   { document.getElementById('error-display').classList.remove('active'); }
 function hideWelcome() { document.getElementById('welcome').classList.remove('active'); }
 
-function showWelcome() {
+async function showWelcome() {
+  // Fetch world list from server
+  let worldButtons = '';
+  try {
+    const res = await fetch('/api/worlds');
+    const worlds = await res.json();
+    worldButtons = worlds.map(name => {
+      // Strip file extension if present (e.g. "0001-land-of-war.json" → "0001-land-of-war")
+      const id = name.replace(/\.[^/.]+$/, '');
+      return `<button class="btn primary" onclick="hideWelcome(); document.getElementById('addr-input').focus(); document.getElementById('addr-input').value = '${id}'">
+        ${id}
+      </button>`;
+    }).join('\n');
+  } catch (e) {
+    worldButtons = '<p>Could not load worlds.</p>';
+  }
+
   document.getElementById('welcome').innerHTML =
     '<div class="welcome-inner">' +
-    '<h1>World Web Browser</h1>' +
+    '<h1>World Web Browser - Lobby</h1>' +
     '<div class="welcome-sub">WW spec v1.3 -- LLM-rendered narrative worlds</div>' +
     '<div class="welcome-step"><div class="welcome-num">1</div><div class="welcome-step-body">' +
     '<strong>Start your LLM.</strong><br>' +
@@ -1134,12 +1150,13 @@ function showWelcome() {
     '<strong>Test the connection.</strong><br>Open Config and click <strong>Test connection</strong>.' +
     '</div></div>' +
     '<div class="welcome-step"><div class="welcome-num">3</div><div class="welcome-step-body">' +
-    '<strong>Navigate to a world.</strong><br>Type <code>0001-land-of-war</code> in the address bar and press Go.' +
+    '<strong>Navigate to a world.</strong><br>Pick a world below or type its ID in the address bar.' +
     '</div></div>' +
     '<div class="welcome-cta">' +
-    '<button class="btn primary" onclick="hideWelcome(); document.getElementById(\'addr-input\').focus(); document.getElementById(\'addr-input\').value = \'0001-land-of-war\'">Start navigating</button>' +
+    worldButtons +
     '<button class="btn" onclick="switchTab(\'config\')">Open Config</button>' +
     '</div></div>';
+
   document.getElementById('welcome').classList.add('active');
 }
 

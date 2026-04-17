@@ -19,7 +19,7 @@ const mimeTypes = {
   '.js':   'application/javascript',
 };
 
-const server = http.createServer((req, res) => {
+const server = http.createServer( async (req, res) => {
   // CORS — required by the spec for WTML documents
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -28,6 +28,18 @@ const server = http.createServer((req, res) => {
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
     res.end();
+    return;
+  }
+
+  if (req.url === '/api/worlds') {
+    try {
+      const files = await fs.promises.readdir(path.join(__dirname, 'worlds'));
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(files));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Could not read worlds folder' }));
+    }
     return;
   }
 
