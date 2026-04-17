@@ -1124,7 +1124,7 @@ function showWelcome() {
   document.getElementById('welcome').innerHTML =
     '<div class="welcome-inner">' +
     '<h1>World Web Browser</h1>' +
-    '<div class="welcome-sub">WW spec v1.2 -- LLM-rendered narrative worlds</div>' +
+    '<div class="welcome-sub">WW spec v1.3 -- LLM-rendered narrative worlds</div>' +
     '<div class="welcome-step"><div class="welcome-num">1</div><div class="welcome-step-body">' +
     '<strong>Start your LLM.</strong><br>' +
     'Local (recommended): install Ollama, then run <code>ollama serve</code> and <code>ollama pull llama3</code>.<br>' +
@@ -1137,7 +1137,7 @@ function showWelcome() {
     '<strong>Navigate to a world.</strong><br>Type <code>0001-land-of-war</code> in the address bar and press Go.' +
     '</div></div>' +
     '<div class="welcome-cta">' +
-    '<button class="btn primary" onclick="hideWelcome(); document.getElementById(\'addr-input\').focus()">Start navigating</button>' +
+    '<button class="btn primary" onclick="hideWelcome(); document.getElementById(\'addr-input\').focus(); document.getElementById(\'addr-input\').value = \'0001-land-of-war\'">Start navigating</button>' +
     '<button class="btn" onclick="switchTab(\'config\')">Open Config</button>' +
     '</div></div>';
   document.getElementById('welcome').classList.add('active');
